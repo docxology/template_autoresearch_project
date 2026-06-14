@@ -1,0 +1,148 @@
+enabled: true
+strict: true
+topic: "Deterministic bounded AutoResearch for a small MNIST neural-network task"
+autonomy_level: proposal_only
+budget:
+  max_iterations: 4
+  max_wall_clock_minutes: 20
+  max_llm_calls: 0
+  max_cost_usd: 0.0
+edit_allowlist:
+  - projects/templates/template_autoresearch_project/mnist_task.yaml
+  - projects/templates/template_autoresearch_project/src/
+  - projects/templates/template_autoresearch_project/manuscript/
+metric_direction: maximize
+grading:
+  # Knobs for the readiness-benchmark auto-grade (consumed by src/writers._load_grading_settings).
+  # min_accuracy_delta: the smallest ML improvement over baseline that counts as a real result.
+  min_accuracy_delta: 0.005
+  # core_artifacts: the artifacts that must be substantive for the readiness benchmark to pass.
+  core_artifacts:
+    - output/data/autoresearch_loop.json
+    - output/data/autoresearch_plan.json
+    - output/data/autoresearch_claims.json
+    - output/data/autoresearch_stage_matrix.csv
+    - output/data/ml_task_results.json
+acceptance_policy: "Accepted ideas require local evidence links and human review."
+quality_checks:
+  - domain_profile
+  - experiment_plan
+  - pipeline_contracts
+  - evidence_registry
+  - artifact_manifest
+  - thin_orchestrators
+  - method_contracts
+  - review_gates
+  - benchmark_tasks
+  - ai_disclosure
+  - security_profile
+security_profile:
+  enabled: true
+  mode: local_deterministic
+  threat_model_frameworks:
+    - STRIDE
+    - MITRE_ATT&CK_T1195
+  integrity_algorithm: sha256
+  network_policy: default_offline
+  external_signing: false
+stage_gates:
+  - Project Tests
+  - Project Analysis
+  - Output Validation
+  - Copy Outputs
+review_gates:
+  - name: proposal_review
+    required: true
+  - name: evidence_review
+    required: true
+source_manifests:
+  - output/reports/evidence_registry.json
+  - manuscript/source_ledger.yaml
+benchmark_tasks:
+  - id: readiness-smoke
+    description: "Confirm the deterministic AutoResearch loop emits graded readiness artifacts."
+    grading_output: output/reports/benchmark_readiness_smoke.json
+  - id: ml-loop-score
+    description: "Grade bounded ML-loop metric improvement, budget compliance, and offline execution."
+    grading_output: output/reports/ml_benchmark_score.json
+disclosure_required: true
+disclosure_text: "AI-assisted AutoResearch"
+required_artifacts:
+  - output/data/autoresearch_plan.json
+  - output/data/autoresearch_loop.json
+  - output/data/autoresearch_claims.json
+  - output/data/autoresearch_stage_matrix.csv
+  - output/data/autoresearch_review_packet.json
+  - output/data/research_program.json
+  - output/data/idea_ledger.json
+  - output/data/run_ledger.json
+  - output/data/review_decisions.json
+  - output/data/benchmark_scores.json
+  - output/data/mnist_task_config.json
+  - output/data/ml_task_results.json
+  - output/data/ml_candidate_ledger.json
+  - output/data/ml_confusion_matrix.csv
+  - output/data/ml_training_history.csv
+  - output/data/ml_error_examples.json
+  - output/data/ml_prediction_records.json
+  - output/data/ml_classification_diagnostics.json
+  - output/data/ml_candidate_intervals.json
+  - output/data/ml_class_balance.json
+  - output/data/ml_calibration_report.json
+  - output/data/ml_calibration_bin_intervals.json
+  - output/data/ml_robustness_report.json
+  - output/data/ml_probability_diagnostics.json
+  - output/data/ml_bootstrap_intervals.json
+  - output/data/ml_paired_comparison.json
+  - output/data/ml_statistical_summary.json
+  - output/data/ml_training_diagnostics.json
+  - output/data/ml_candidate_rank_stability.json
+  - output/data/ml_candidate_selection_audit.json
+  - output/data/ml_diagnostic_boundary.json
+  - output/data/autoresearch_phase_ledger.json
+  - output/data/figure_quality_report.json
+  - output/data/autoresearch_security_profile.json
+  - output/data/autoresearch_threat_model.json
+  - output/data/autoresearch_supply_chain_inventory.json
+  - output/data/autoresearch_inventory_export.json
+  - output/data/autoresearch_integrity_attestation.json
+  - output/data/autoresearch_schema_manifest.json
+  - output/data/research_object_manifest.json
+  - output/data/manuscript_variables.json
+  - output/data/manuscript_variable_provenance.json
+  - output/data/manuscript_figure_blocks.json
+  - output/figures/autoresearch_stage_matrix.png
+  - output/figures/ml_candidate_scores.png
+  - output/figures/ml_confusion_matrix.png
+  - output/figures/ml_per_class_accuracy.png
+  - output/figures/ml_learning_curves.png
+  - output/figures/ml_complexity_accuracy.png
+  - output/figures/mnist_error_examples.png
+  - output/figures/ml_calibration_reliability.png
+  - output/figures/ml_classification_metrics_heatmap.png
+  - output/figures/ml_confusion_pairs.png
+  - output/figures/ml_generalization_gap.png
+  - output/figures/ml_robustness_matrix.png
+  - output/figures/ml_probability_margin_distribution.png
+  - output/figures/ml_bootstrap_intervals.png
+  - output/figures/ml_paired_correctness.png
+  - output/figures/ml_selective_accuracy.png
+  - output/figures/ml_probability_quality.png
+  - output/figures/ml_training_dynamics.png
+  - output/figures/ml_candidate_rank_stability.png
+  - output/figures/autoresearch_candidate_lifecycle.png
+  - output/figures/mnist_class_balance.png
+  - output/figures/mnist_subset_contact_sheet.png
+  - output/figures/autoresearch_closure_flow.png
+  - output/figures/autoresearch_security_control_matrix.png
+  - output/figures/autoresearch_integrity_chain.png
+  - output/figures/figure_registry.json
+  - output/reports/autoresearch_loop.json
+  - output/reports/autoresearch_loop.md
+  - output/reports/autoresearch_review_packet.md
+  - output/reports/autoresearch_summary.md
+  - output/reports/ml_experiment_report.md
+  - output/reports/ml_benchmark_score.json
+  - output/reports/artifact_manifest.json
+  - output/reports/autoresearch_security_review.md
+  - output/reports/benchmark_readiness_smoke.json
