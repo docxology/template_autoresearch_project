@@ -9,6 +9,22 @@ nearest-centroid baseline, and a bounded set of numpy-only neural-network
 candidates: softmax regression, a small MLP, and a tiny patch-attention
 classifier.
 
+## Run via the template monorepo
+
+This exemplar lives at `projects/templates/template_autoresearch_project/` in the public
+[docxology/template](https://github.com/docxology/template) repository.
+**Tests, analysis, PDF rendering, and CI all run through that monorepo** —
+clone it, run `uv sync` at the repository root, then:
+
+```bash
+./run.sh --project templates/template_autoresearch_project --pipeline --core-only
+# or: uv run python scripts/execute_pipeline.py --project templates/template_autoresearch_project --core-only
+```
+
+Several exemplars also publish standalone GitHub/Zenodo releases for citation;
+those mirrors are outputs of this pipeline. The monorepo remains the canonical
+build and render surface.
+
 ## When to use this template
 
 Use this template when you need a **bounded, offline AutoResearch loop**:
@@ -16,12 +32,27 @@ deterministic ML candidate evaluation over a fixed local dataset, with
 evidence-linked claims, machine-readable ledgers, artifact-integrity
 manifests, and deferred human-review gates. It demonstrates how to make the
 research *process* inspectable without claiming autonomous discovery.
+Metric claims come from local execution artifacts: benchmark-style command
+output may use exact `METRIC name=value` lines, candidate outcomes stay in
+explicit keep/reject/defer-style ledgers, and confidence claims must disclose
+baseline, best result, and the measurable noise floor rather than standing in
+for human publication approval.
 
 Choose [`template_autoscientists`](../template_autoscientists/) instead if
 your focus is agent-team **coordination primitives** (dead-end registries,
 noise-band confirmation, stagnation-driven reorganization) rather than
 AutoResearch loop infrastructure. For the full exemplar roster see
 [`projects/AGENTS.md`](../../AGENTS.md#permanent-canonical-exemplars-and-optional-search-add-on).
+
+## Configuration
+
+Use [`manuscript/config.yaml`](manuscript/config.yaml) as the live metadata,
+render, analysis, project-config, approval-boundary, and publication surface.
+Keep [`manuscript/config.yaml.example`](manuscript/config.yaml.example) in
+top-level parity with placeholder-safe values so a fork can start without
+project-specific secrets or release metadata. The bounded ML task, source
+ledger, human-review boundary, and generated artifact contracts remain
+offline-first and deterministic.
 
 ## Quick start
 
