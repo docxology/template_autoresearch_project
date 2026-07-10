@@ -7,7 +7,7 @@ only parse arguments, resolve paths, and call these functions.
 
 | Area | Modules | Role |
 | --- | --- | --- |
-| Loop | `loop.py`, `loop_phases.py`, `writers/` | Orchestration; phased payload refresh; artifact I/O delegates to `writers/` submodules |
+| Loop | `loop.py`, `loop_phases.py`, `writers/` | Orchestration; `PRE_EXTRINSIC_PHASES` table; phased payload refresh; artifact I/O delegates to `writers/` submodules |
 | Writers | `writers/figure_dispatch.py`, `writers/benchmark.py`, `writers/{io,manifests,payloads}.py` | Figure dispatch from `figures.figure_specs`; benchmark grading; JSON/CSV/manifest I/O (`writers/__init__.py` facade) |
 | Figure specs | `figures/figure_specs.py` | Authoritative labels, methods, dispatch, `build_figure_registry_records` |
 | Figure registry metadata | `figures/figure_registry_metadata.py` | Per-label section/width/placement/generated_by/metadata (no filename/id) |
@@ -17,6 +17,7 @@ only parse arguments, resolve paths, and call these functions.
 | Manuscript tokens | `manuscript_variables.py` (root facade), `manuscript/manuscript_token_registry.py`, `manuscript/manuscript_tokens_{core,ml,figures,format}.py` | Render-time `{{TOKEN}}` hydration |
 | Manuscript tables | `manuscript/manuscript_tables.py`, `manuscript/manuscript_tables_{builders,format}.py` | Registry-backed markdown/PDF tables; `build_table_specs(LoopArtifacts)` |
 | Diagnostics | `diagnostics/{records,intervals,metrics,reports}.py` (`diagnostics/__init__.py` facade) | ML diagnostic bundles |
+| Source ledger | `source_ledger.py` | Offline (no-network) validation of `manuscript/source_ledger.yaml` against `references.bib` and manuscript citations; source-tier counts and checked-age buckets for reviewer reports |
 
 Each package's `__init__.py` is the public facade — re-export new public symbols
 there rather than recreating flat root-level stub modules (the flat→package

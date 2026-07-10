@@ -373,7 +373,7 @@ figure(s) with validity `false`.
 | output/data/autoresearch_inventory_export.json | Security evidence | 20203 |
 | output/data/autoresearch_loop.json | Loop artifact | 16085 |
 | output/data/autoresearch_phase_ledger.json | Run or candidate ledger | 3779 |
-| output/data/autoresearch_plan.json | Loop artifact | 17361 |
+| output/data/autoresearch_plan.json | Loop artifact | 19334 |
 | output/data/autoresearch_review_packet.json | Review packet | 16204 |
 | output/data/autoresearch_schema_manifest.json | Loop artifact | 7226 |
 | output/data/autoresearch_security_profile.json | Security evidence | 1537 |
@@ -474,11 +474,11 @@ figure(s) with validity `false`.
 | final visuals | 8 | figures | 54 | write final registry-backed figures |
 | manuscript hydration | 9 | manuscript | 9 | write variables, provenance, and figure blocks |
 | readiness manifest | 10 | settlement | 12 | refresh checksum manifest before extrinsic validation |
-| schema manifest | 11 | schema | 2 | write generated JSON schema-version manifest |
-| research object manifest | 12 | packaging | 2 | write local research-object manifest |
+| schema manifest | 11 | schema | 1 | write generated JSON schema-version manifest |
+| research object manifest | 12 | packaging | 1 | write local research-object manifest |
 | extrinsic readiness | 13 | readiness | 3 | validate generated artifacts and extrinsic contracts |
-| final schema manifest | 14 | schema | 2 | refresh schema manifest after final payload updates |
-| final research object manifest | 15 | packaging | 2 | refresh local research-object manifest |
+| final schema manifest | 14 | schema | 1 | refresh schema manifest after final payload updates |
+| final research object manifest | 15 | packaging | 1 | refresh local research-object manifest |
 | artifact manifest | 16 | settlement | 12 | write final artifact checksum manifest |
 
 : Deterministic phase ledger from `output/data/autoresearch_phase_ledger.json`; settlement order is not an autonomy claim. {#tbl:phase-ledger}
