@@ -86,7 +86,7 @@ To regenerate this exemplar from the public monorepo:
 git clone https://github.com/docxology/template
 cd template
 uv sync
-./run.sh --project templates/template_autoresearch_project --pipeline --core-only
+./run.sh --project templates/template_autoresearch_project --pipeline --mode core
 uv run python scripts/pipeline/stage_04_validate.py --project templates/template_autoresearch_project
 uv run python scripts/pipeline/stage_05_copy.py --project templates/template_autoresearch_project
 ```
@@ -108,7 +108,7 @@ offline-first and deterministic.
 ## Quick start
 
 ```bash
-./run.sh --pipeline --project templates/template_autoresearch_project --core-only --skip-infra
+./run.sh --pipeline --project templates/template_autoresearch_project --mode core --skip-infra
 ```
 
 The per-project test/coverage gate (≥90% on `src/`, enforced by
@@ -203,14 +203,14 @@ flowchart TB
   intrinsic --> core[write_core_loop_artifacts]
   core --> registry1[write_evidence_registry_report]
   registry1 --> ml[run_bounded_ml_task + write_ml_task_artifacts]
-  ml --> claims[build_claims + finalize_loop_payloads]
+  ml --> claims[build_claims + refresh_loop_payloads]
   claims --> methods[write_method_contract_artifacts]
-  methods --> update1[update_result_payloads provisional]
+  methods --> update1[refresh_loop_payloads provisional]
   update1 --> security1[write_security_artifacts]
   security1 --> phase1[write_phase_ledger + write_artifact_manifest]
   phase1 --> extrinsic[validate phase=extrinsic]
   extrinsic --> readiness[write_autoresearch_report combined]
-  readiness --> update2[update_result_payloads final]
+  readiness --> update2[refresh_loop_payloads final]
   update2 --> visuals[write_final_visual_artifacts]
   visuals --> hydrate[write_manuscript_hydration_artifacts]
   hydrate --> registry2[write_evidence_registry_report refresh]

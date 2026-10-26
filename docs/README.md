@@ -15,7 +15,7 @@ dump is an opt-in local debug artifact via `TEMPLATE_EVIDENCE_REGISTRY_FULL=1`.
 Primary command:
 
 ```bash
-./run.sh --pipeline --project template_autoresearch_project --core-only --skip-infra
+./run.sh --pipeline --project template_autoresearch_project --mode core --skip-infra
 ```
 
 Useful direct checks:
@@ -33,4 +33,6 @@ Documentation map:
 | [configuration.md](configuration.md) | Project knobs and how they feed the loop |
 | [outputs.md](outputs.md) | Generated data, reports, and review artifacts |
 | [runbook.md](runbook.md) | End-to-end operation through `run.sh` |
+| [troubleshooting.md](troubleshooting.md) | Symptom → cause → fix triage for readiness, token, ledger, and security failures |
+| [agent_instructions.md](agent_instructions.md) | Operating constraints, workflow, and critical references for agents |
 | [validation-architecture.md](validation-architecture.md) | Veridicality gates: what each binds, hard vs opt-in, negative-control testing |
