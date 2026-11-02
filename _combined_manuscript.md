@@ -10,9 +10,11 @@
 \section*{BEGINNING OF TRANSMISSION}\label{beginning-of-transmission}
 ```
 
-**State:** published
+**State:** unpublished / pending pairing
 
-**Pairing:** complete (DOI, GitHub, SHA-256, Zenodo URL)
+**Pairing:** pending — unresolved:
+- ✗ GitHub release URL: `pending`
+- ✗ PDF SHA-256: `pending`
 
 ```{=latex}
 \subsubsection*{Release metadata}
@@ -21,12 +23,11 @@
 | Field | Value |
 | --- | --- |
 | Title | Bounded AutoResearch for a Tiny Reproducible Machine-Learning Task |
-| Version | 0.3.2 |
+| Version | 0.4.0 |
 | Concept DOI | 10.5281/zenodo.20417016 |
-| Version DOI | 10.5281/zenodo.20931907 |
-| GitHub | [https://github.com/docxology/template_autoresearch_project/releases/tag/v0.3.2](https://github.com/docxology/template_autoresearch_project/releases/tag/v0.3.2) |
+| GitHub | docxology/template_autoresearch_project |
 | Zenodo | [https://zenodo.org/records/20417016](https://zenodo.org/records/20417016) |
-| SHA-256 | `e07b62850a199593…` |
+| SHA-256 | pending |
 | SHA-512 | pending |
 
 ```{=latex}
@@ -37,11 +38,11 @@
 - Scan **Zenodo** / **GitHub** QR codes and confirm they resolve to this release pairing.
 - Full hashes and structured fields: `../data/transmission_manifest.json`.
 
-![Integrity QR strip](../figures/transmission_integrity_strip.png){width=98%}
+![Integrity QR strip](figures/transmission_integrity_strip.png){width=98%}
 
 Structured manifest: `../data/transmission_manifest.json`
 
-![Publication pairing flow](../figures/transmission_pairing.png){width=35%}
+![Publication pairing flow](figures/transmission_pairing.png){width=35%}
 
 **Stego:** off | overlays text | barcodes on | XMP on | manifest on → `./secure_run.sh`
 
@@ -101,7 +102,7 @@ AutoResearch systems are most useful when their planning, evidence, evaluation,
 and review surfaces remain inspectable. The recent pattern popularized by
 bounded coding-agent research loops is simple: define a tractable objective,
 try candidate changes under a budget, keep the result that improves the metric,
-and leave a replayable trace of what happened [karpathy_autoresearch_2026].
+and leave a replayable trace of what happened [@karpathy_autoresearch_2026].
 That pattern is powerful, but it is also easy to overstate. A public research
 template should show how to run the loop without hiding cost, evidence, review,
 or execution boundaries.
@@ -110,7 +111,7 @@ or execution boundaries.
 
 This project implements that safer version. The central task is
 `small MNIST neural-network classification`: `MNIST handwritten digit database` from the handwritten-digit database
-[lecun_mnist_database], a `nearest-centroid` baseline, and a
+[@lecun_mnist_database], a `nearest-centroid` baseline, and a
 finite list of candidate model families (`MLP, nearest-centroid, softmax regression, tiny patch-attention`). The
 AutoResearch loop is responsible for proposing candidate configurations,
 evaluating them against `test_accuracy`, selecting the best result with
@@ -148,18 +149,18 @@ scientific output is growing faster than document-centered review and synthesis
 can absorb. Recent science-of-science evidence complicates any simple
 productivity story: AI-augmented scientists can publish and be cited more often,
 but the same adoption pattern can narrow the collective range of topics and
-interactions in science [hao_ai_tools_focus_2026]. This is a 2026 Nature result,
+interactions in science [@hao_ai_tools_focus_2026]. This is a 2026 Nature result,
 not a 2024 analysis, and it motivates governance rather than celebration.
 
 One response is to make literature synthesis more source governed.
 OpenScholar uses retrieval-augmented generation over a large scientific passage
 store and reports citation accuracy improvements on literature synthesis tasks
-[asai_openscholar_2026]. PaperQA2 similarly evaluates literature-search agents
+[@asai_openscholar_2026]. PaperQA2 similarly evaluates literature-search agents
 against expert scientific tasks and emphasizes cited answers, contradiction
-detection, and factuality [skarlinski_paperqa2_2024]. STORM, PaperQA, and GPT
+detection, and factuality [@skarlinski_paperqa2_2024]. STORM, PaperQA, and GPT
 Researcher are adjacent source-grounded writing systems that motivate this
 project's insistence on citation-backed claims and visible evidence surfaces
-[shao_storm_2024; lala_paperqa_2023; gpt_researcher_2026]. The common lesson
+[@shao_storm_2024; @lala_paperqa_2023; @gpt_researcher_2026]. The common lesson
 is that automated writing is not enough: claims must remain tied to inspectable
 sources, artifacts, and evaluation records.
 
@@ -169,7 +170,7 @@ The Discovery Engine proposes a more structural answer to the same overload
 problem. It distills publications into source-linked knowledge artifacts,
 organizes those artifacts under a conceptual schema, encodes them into a
 high-dimensional Conceptual Tensor, and unrolls that tensor into graph and
-vector views for agent navigation [baulin_discovery_engine_2025]. This project
+vector views for agent navigation [@baulin_discovery_engine_2025]. This project
 does not construct a Conceptual Nexus Model or claim domain-scale literature
 synthesis. It adopts a much smaller analogue: outputs, ledgers, evidence
 registries, figure records, and hydrated manuscript variables are file-backed
@@ -177,15 +178,15 @@ objects whose provenance can be checked before publication.
 
 The representational background is broader than one framework. FAIR principles
 argue for data that are findable, accessible, interoperable, and reusable by
-people and machines [wilkinson2016fair]. RO-Crate and Workflow Run RO-Crate
+people and machines [@wilkinson2016fair]. RO-Crate and Workflow Run RO-Crate
 package research artifacts and computational executions with linked-data
-metadata [soiland_reyes2022rocrate; soiland_reyes2024workflow_run_rocrate].
+metadata [@soiland_reyes2022rocrate; @soiland_reyes2024workflow_run_rocrate].
 Hyperdimensional computing and vector symbolic architectures provide one route
 for robust high-dimensional symbolic-subsymbolic representations
-[heddes_hdc_2024], while tensor factorization methods such as TuckER and
+[@heddes_hdc_2024], while tensor factorization methods such as TuckER and
 mixed-geometry tensor factorization show how multi-relational knowledge graphs
 can be completed and queried as structured tensors
-[balazevic_tucker_2019; yusupov_mixed_geometry_2025]. The local contribution
+[@balazevic_tucker_2019; @yusupov_mixed_geometry_2025]. The local contribution
 here is not a new knowledge representation method; it is an executable template
 that makes a small research workflow compatible with that machine-readable
 direction.
@@ -194,23 +195,23 @@ direction.
 
 The most ambitious AutoResearch systems now aim at the entire scientific
 lifecycle. The AI Scientist assembles idea generation, experiment execution,
-paper writing, and automated review [lu_aiscientist_2024], and its Nature
+paper writing, and automated review [@lu_aiscientist_2024], and its Nature
 version reports an end-to-end AI research pipeline whose generated manuscript
-passed a workshop peer-review round [lu_ai_scientist_nature_2026].
+passed a workshop peer-review round [@lu_ai_scientist_nature_2026].
 AI Scientist-v2 removes more hand-authored scaffolding and uses agentic tree
-search for broader hypothesis exploration [yamada_ai_scientist_v2_2025].
+search for broader hypothesis exploration [@yamada_ai_scientist_v2_2025].
 FutureHouse's platform exposes specialized scientific agents for literature
 search, deep review, novelty checking, and chemistry planning
-[futurehouse_platform_2025], while Robin integrates literature and data-analysis
-agents in a lab-in-the-loop discovery workflow [ghareeb_robin_2026].
+[@futurehouse_platform_2025], while Robin integrates literature and data-analysis
+agents in a lab-in-the-loop discovery workflow [@ghareeb_robin_2026].
 
 Survey work is already separating reliable assistance from risky autonomy.
 The AI for Auto-Research roadmap describes the full lifecycle from creation to
 dissemination, but stresses that novelty, research-level implementation, and
-judgment remain fragile under automation [kong_ai_auto_research_2026].
+judgment remain fragile under automation [@kong_ai_auto_research_2026].
 EXHYTE frames discovery as an iterative Exploration, Hypothesis generation, and
 Testing loop, clarifying where current systems are mature and where closed-loop
-autonomy remains thin [hasib_exhyte_2025]. This exemplar therefore takes the
+autonomy remains thin [@hasib_exhyte_2025]. This exemplar therefore takes the
 opposite stance from full autonomy: it implements a bounded local loop whose
 candidate space, data, cost, outputs, and review gates can be audited.
 
@@ -220,12 +221,12 @@ Autoformalization supplies a different kind of boundary: instead of only asking
 whether generated text is plausible, it asks whether an informal statement can
 be translated into a form that a proof assistant or compiler can check.
 AlphaProof shows the power of reinforcement learning over formal mathematical
-proof search [hubert_alphaproof_2025]. Process-driven autoformalization in
+proof search [@hubert_alphaproof_2025]. Process-driven autoformalization in
 Lean uses compiler feedback as a precise signal for improving translations
 from natural-language mathematics to formal statements and proofs
-[lu_process_driven_autoformalization_2024]. APOLLO turns Lean feedback into an
+[@lu_process_driven_autoformalization_2024]. APOLLO turns Lean feedback into an
 iterative proof-repair workflow in which generated proofs are decomposed,
-patched, and reverified [apollo_lean_collaboration_2025].
+patched, and reverified [@apollo_lean_collaboration_2025].
 
 This project does not perform theorem proving, proof repair, or formal
 mathematical verification. It borrows the architectural lesson: generated
@@ -240,15 +241,15 @@ ML-for-ML systems optimize models, code, or algorithms with search loops that ar
 themselves subject to evaluation. Karpathy's `autoresearch` repository frames a
 minimal version of this pattern as a prompt-controlled system with a fixed
 budget, editable code surface, and comparable metric
-[karpathy_autoresearch_2026]. MLAgentBench and MLE-bench package machine
+[@karpathy_autoresearch_2026]. MLAgentBench and MLE-bench package machine
 learning tasks as scored, replayable environments with logs and grading outputs
-[huang_mlagentbench_2023; chan_mle_bench_2024].
+[@huang_mlagentbench_2023; @chan_mle_bench_2024].
 
 At a larger scale, AlphaEvolve couples language-model proposals to evolutionary
 program search and automated evaluators, producing algorithmic improvements in
-mathematics and computing [romera_paredes_alphaevolve_2025]. DeepEvolve adds
+mathematics and computing [@romera_paredes_alphaevolve_2025]. DeepEvolve adds
 external retrieval, multi-file code editing, and debugging to the same basic
-proposal-implementation-evaluation loop [deepevolve_2025]. This manuscript's
+proposal-implementation-evaluation loop [@deepevolve_2025]. This manuscript's
 candidate search is intentionally smaller: a finite list of configured model
 families is evaluated against `test_accuracy`, with deterministic selection
 and recorded deferrals rather than unbounded code mutation.
@@ -257,13 +258,15 @@ and recorded deferrals rather than unbounded code mutation.
 
 Agentic science surveys describe systems that move from tool use toward
 scientific agency across perception, knowledge representation, planning,
-experimentation, analysis, and communication [wei_agentic_science_2025; gridach_agentic_science_2025]. GraphRAG work adds structured retrieval to that
+experimentation, analysis, and communication [@wei_agentic_science_2025;
+@gridach_agentic_science_2025]. GraphRAG work adds structured retrieval to that
 picture: graph construction and graph-aware retrieval can support multi-hop
 reasoning, but benchmarks also show that knowledge-graph RAG remains brittle
-when relevant knowledge is incomplete [graphrag_bench_2026; brink_kg_rag_2026]. Active-inference perspectives make a similar design demand
+when relevant knowledge is incomplete [@graphrag_bench_2026;
+@brink_kg_rag_2026]. Active-inference perspectives make a similar design demand
 in different language: scientific agents need persistent uncertainty-aware
 memory, causal models, counterfactual exploration, deterministic validation, and
-human judgment as an architectural component [active_inference_science_2025].
+human judgment as an architectural component [@active_inference_science_2025].
 
 This exemplar uses those ideas as constraints, not as capabilities it already
 possesses. It does not run live literature mining, autonomous proof search,
@@ -277,50 +280,51 @@ safe baseline for a public template.
 
 `MNIST` and LeNet remain useful here because they provide a
 compact historical benchmark for small neural networks and handwriting
-recognition [lecun_gradient_1998; lecun_mnist_database]. Vision Transformers
+recognition [@lecun_gradient_1998; @lecun_mnist_database]. Vision Transformers
 introduce the patch-token pattern for image classification at scale
-[dosovitskiy_vit_2020]; this exemplar borrows only the patching and attention
+[@dosovitskiy_vit_2020]; this exemplar borrows only the patching and attention
 representation through `Tiny patch-attention classifier`, then keeps the
 implementation inside the configured candidate budget. MLPerf Tiny and OpenML
 motivate explicit task descriptions, fixed inputs, machine-readable run
-metadata, and checkable metrics [banbury_mlperf_tiny_2021; vanschoren_openml_2014]. Machine-learning reproducibility checklists motivate
+metadata, and checkable metrics [@banbury_mlperf_tiny_2021;
+@vanschoren_openml_2014]. Machine-learning reproducibility checklists motivate
 reporting data, seeds, model sizes, hyperparameters, and compute boundaries
-[pineau_reproducibility_2020].
+[@pineau_reproducibility_2020].
 
 Dataset and model documentation work further informs the safe boundary.
 Datasheets for Datasets motivate explicit reporting of dataset motivation,
-composition, collection, and recommended use [gebru2021datasheets]. Model Cards
+composition, collection, and recommended use [@gebru2021datasheets]. Model Cards
 motivate structured reporting of model context, intended use, evaluation
-procedure, and limitations [mitchell2019model_cards]. The diagnostic layer
+procedure, and limitations [@mitchell2019model_cards]. The diagnostic layer
 follows the same conservative reporting posture: calibration is treated as
-separate from accuracy [guo2017calibration], binomial accuracy intervals use
-Wilson-style score intervals [wilson1927probable_inference], matched classifier
+separate from accuracy [@guo2017calibration], binomial accuracy intervals use
+Wilson-style score intervals [@wilson1927probable_inference], matched classifier
 comparison is summarized through paired discordance
-[dietterich1998statistical_tests], deterministic bootstrap intervals are local
-resampling diagnostics [efron1993bootstrap], and probability quality is
+[@dietterich1998statistical_tests], deterministic bootstrap intervals are local
+resampling diagnostics [@efron1993bootstrap], and probability quality is
 reported with Brier score, negative log likelihood, and chance-corrected
-agreement [brier1950verification; cohen1960coefficient].
+agreement [@brier1950verification; @cohen1960coefficient].
 
 The process language is borrowed cautiously from teleology and theoretical
 biology. Kant's account of organized beings treats a natural purpose as a whole
 whose parts and whole mutually condition one another
-[ginsborg_kant_aesthetics_teleology]. Autopoiesis characterizes living systems
-through self-producing organization [varela_autopoiesis_1974], and later work
+[@ginsborg_kant_aesthetics_teleology]. Autopoiesis characterizes living systems
+through self-producing organization [@varela_autopoiesis_1974], and later work
 connects Kantian natural purpose to autopoietic individuality
-[weber_varela_life_after_kant_2002]. Moreno and Mossio's account of biological
+[@weber_varela_life_after_kant_2002]. Moreno and Mossio's account of biological
 autonomy emphasizes organizational closure and self-maintenance
-[moreno_mossio_biological_autonomy_2015]. This paper uses those ideas only as
+[@moreno_mossio_biological_autonomy_2015]. This paper uses those ideas only as
 disciplined analogies for configured scientific workflows whose artifacts help
 reproduce, constrain, and evaluate subsequent artifacts.
 
 Security and supply-chain references enter with the same restraint. NIST's
 zero-trust architecture treats verification as explicit and continuous rather
-than inherited from a trusted perimeter [nist_sp800_207_zero_trust]. The NIST
+than inherited from a trusted perimeter [@nist_sp800_207_zero_trust]. The NIST
 Secure Software Development Framework emphasizes repeatable practices for
-reducing software vulnerability risk [nist_sp800_218_ssdf]. SLSA frames
+reducing software vulnerability risk [@nist_sp800_218_ssdf]. SLSA frames
 software-artifact provenance and supply-chain integrity as a graded assurance
-problem [slsa_spec_latest], while MITRE ATT&CK T1195 names supply-chain
-compromise as a concrete adversary technique [mitre_attack_t1195]. This
+problem [@slsa_spec_latest], while MITRE ATT&CK T1195 names supply-chain
+compromise as a concrete adversary technique [@mitre_attack_t1195]. This
 exemplar borrows those frameworks as disciplined analogies for local research
 artifact integrity: checksums, inventories, review gates, and explicit
 non-claims, not production deployment certification.
@@ -336,7 +340,7 @@ non-claims, not production deployment certification.
 The loop is implemented through the project source surface summarized by the
 validated run artifacts. The project scripts remain thin dispatchers; reusable
 behavior writes `output/data/autoresearch_loop.json`, `output/data/ml_task_results.json`,
-`../figures/figure_registry.json`, `output/data/autoresearch_phase_ledger.json`, and
+`figures/figure_registry.json`, `output/data/autoresearch_phase_ledger.json`, and
 `output/data/manuscript_variable_provenance.json`.
 
 ## Task And Data {#sec:task-data}
@@ -353,7 +357,7 @@ The train and test splits contain `200` and
 class-balance diagnostic is @fig:mnist_class_balance, and the
 dataset contact sheet is @fig:mnist_subset_contact_sheet.
 
-![Train and test class counts from output/data/ml_class_balance.json; the local fixture contains 2000 train and 500 test examples across 10 classes. Generation method: Grouped train/test class-count bars from the local MNIST fixture. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/mnist_class_balance.png){#fig:mnist_class_balance width="0.78\textwidth"}
+![Train and test class counts from output/data/ml_class_balance.json; the local fixture contains 2000 train and 500 test examples across 10 classes. Generation method: Grouped train/test class-count bars from the local MNIST fixture. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/mnist_class_balance.png){#fig:mnist_class_balance width="0.78\textwidth"}
 
 | Split | Class | Count | Fraction |
 | --- | --- | --- | --- |
@@ -380,7 +384,7 @@ dataset contact sheet is @fig:mnist_subset_contact_sheet.
 
 : Local fixture class-balance table from `output/data/ml_class_balance.json`; counts describe the offline fixture used by this run. {#tbl:class-balance}
 
-![Deterministic class-balanced contact sheet for MNIST handwritten digit database from data/mnist_small.npz and data/mnist_small_provenance.json; the figure documents the local subset used by the offline run. Generation method: Class-balanced contact sheet from fixed local MNIST arrays. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/mnist_subset_contact_sheet.png){#fig:mnist_subset_contact_sheet width="0.78\textwidth"}
+![Deterministic class-balanced contact sheet for MNIST handwritten digit database from data/mnist_small.npz and data/mnist_small_provenance.json; the figure documents the local subset used by the offline run. Generation method: Class-balanced contact sheet from fixed local MNIST arrays. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/mnist_subset_contact_sheet.png){#fig:mnist_subset_contact_sheet width="0.78\textwidth"}
 
 The baseline is `nearest_centroid_baseline` (`nearest-centroid`). The bounded
 candidate set is configured by the task artifact and covers
@@ -397,7 +401,13 @@ The run follows `7` configured stages:
 - Resolve the human-authored program, project topic, and research questions.
 - Build an `AutoResearchPlan` from the domain profile, experiment plan, and
   pipeline DAG.
-- Validate exact stage-gate names declared in `autoresearch.yaml`.
+- Validate exact stage-gate names declared in `autoresearch.yaml`: an entry
+Validation rejects unknown stage names — misspelling a gate name halts configuration before any phase executes.
+  naming a stage absent from `pipeline.yaml` is a validation error
+  (`AUTORESEARCH.STAGE_UNKNOWN`), never silently skipped. The claim substance
+  gate has negative controls in `tests/test_gate_negative_controls.py`, which
+  feeds missing, hollow, and garbage evidence artifacts and asserts each claim
+  is rejected.
 - Evaluate the configured `MNIST` candidate set up to the
   configured iteration budget.
 - Generate claims only from configured questions and local artifact paths.
@@ -482,7 +492,7 @@ to `output/data/autoresearch_threat_model.json`,
 @fig:autoresearch_security_control_matrix. The table and figure are generated from
 the threat model and inventory, not manually maintained.
 
-![Local security-control matrix from output/data/autoresearch_threat_model.json; controls map NIST, SLSA, and ATT&CK-inspired safeguards to deterministic evidence surfaces without claiming production security certification. Generation method: structured control matrix with separate control, evidence, framework, and status columns. Generation method: Structured control matrix from local threat-model controls. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/autoresearch_security_control_matrix.png){#fig:autoresearch_security_control_matrix width="0.84\textwidth"}
+![Local security-control matrix from output/data/autoresearch_threat_model.json; controls map NIST, SLSA, and ATT&CK-inspired safeguards to deterministic evidence surfaces without claiming production security certification. Generation method: structured control matrix with separate control, evidence, framework, and status columns. Generation method: Structured control matrix from local threat-model controls. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/autoresearch_security_control_matrix.png){#fig:autoresearch_security_control_matrix width="0.84\textwidth"}
 
 | Security artifact | Path | Summary |
 | --- | --- | --- |
@@ -496,6 +506,7 @@ the threat model and inventory, not manually maintained.
 : Local security artifacts generated for the bounded AutoResearch run. {#tbl:security-artifacts}
 
 \begingroup\footnotesize
+
 | Threat | STRIDE | ATT&CK | Scenario | Residual risk |
 | --- | --- | --- | --- | --- |
 | dataset tamper | Tampering | T1195 | A local fixture could be replaced or edited before analysis. | Residual risk remains if a reviewer ignores checksum drift. |
@@ -507,6 +518,7 @@ the threat model and inventory, not manually maintained.
 | build assumption | Denial of service | T1195.003 | A local or CI build context could omit checks or run stale generated... | The exemplar does not sign build logs or isolate runners. |
 
 : Threat-model rows from `output/data/autoresearch_threat_model.json`; ATT&CK labels scope supply-chain compromise analogies. {#tbl:security-threat-model}
+
 \endgroup
 
 ## Positioning Against Autonomous Science Systems {#sec:positioning-autonomous-science}
@@ -533,7 +545,7 @@ The experiment writes `output/data/ml_task_results.json`, `output/data/ml_candid
 `output/reports/ml_benchmark_score.json`, `output/data/benchmark_boundary.json`,
 `output/data/figure_quality_report.json`, and
 registered figures through
-`../figures/figure_registry.json`. The diagnostic payloads preserve probabilities,
+`figures/figure_registry.json`. The diagnostic payloads preserve probabilities,
 confidence and margin summaries, class metrics, calibration bins,
 confusion-pair summaries, train/test gaps, deterministic no-retrain
 perturbation scores, bootstrap intervals, paired baseline comparison,
@@ -566,6 +578,7 @@ rendered method table below is generated from that registry rather than
 maintained manually.
 
 \begingroup\footnotesize
+
 | Figure | Source | Method | Scope |
 | --- | --- | --- | --- |
 | @fig:autoresearch_candidate_lifecycle | [candidate ledger](../data/ml_candidate_ledger.json) | Candidate lifecycle status-count bar chart. | Lifecycle counts describe bounded orchestration, not autonomous approval. |
@@ -594,7 +607,8 @@ maintained manually.
 | @fig:mnist_error_examples | [error examples](../data/ml_error_examples.json) | Deterministic grid of the first accepted-candidate misclassifications. | Examples are qualitative diagnostics for this run, not an error taxonomy. |
 | @fig:mnist_subset_contact_sheet | [small](../../data/mnist_small.npz) | Class-balanced contact sheet from fixed local MNIST arrays. | The sheet illustrates the local fixed subset and is not a statistical sample claim. |
 
-: Registry-backed figure methods from [`figure_registry.json`](../figures/figure_registry.json); full validation hooks, alt text, and claim boundaries remain in the registry. {#tbl:figure-methods}
+: Registry-backed figure methods from [`figure_registry.json`](figures/figure_registry.json); full validation hooks, alt text, and claim boundaries remain in the registry. {#tbl:figure-methods}
+
 \endgroup
 
 
@@ -660,25 +674,25 @@ score figure is registered as
 
 ## Run-Derived Figures {#sec:run-derived-figures}
 
-![Held-out accuracy with Wilson intervals for the baseline and evaluated candidates from output/data/ml_candidate_intervals.json; accepted candidate exp-mlp-tanh-64 improves accuracy from 82.6% to 89.4% on the fixed subset, with deferred proposals kept in the candidate ledger. Generation method: Lollipop accuracy comparison with Wilson interval error bars and direct labels. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_candidate_scores.png){#fig:ml_candidate_scores width="0.8\textwidth"}
+![Held-out accuracy with Wilson intervals for the baseline and evaluated candidates from output/data/ml_candidate_intervals.json; accepted candidate exp-mlp-tanh-64 improves accuracy from 82.6% to 89.4% on the fixed subset, with deferred proposals kept in the candidate ledger. Generation method: Lollipop accuracy comparison with Wilson interval error bars and direct labels. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_candidate_scores.png){#fig:ml_candidate_scores width="0.8\textwidth"}
 
-![Rank-stability summary for exp-mlp-tanh-64 from output/data/ml_candidate_rank_stability.json; deterministic local bootstrap resampling shows how often each evaluated candidate ranks first under the fixed test split. Generation method: Bootstrap top-rank frequency and mean-rank comparison. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_candidate_rank_stability.png){#fig:ml_candidate_rank_stability width="0.82\textwidth"}
+![Rank-stability summary for exp-mlp-tanh-64 from output/data/ml_candidate_rank_stability.json; deterministic local bootstrap resampling shows how often each evaluated candidate ranks first under the fixed test split. Generation method: Bootstrap top-rank frequency and mean-rank comparison. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_candidate_rank_stability.png){#fig:ml_candidate_rank_stability width="0.82\textwidth"}
 
-![Accepted-candidate confusion matrix for exp-mlp-tanh-64 on the fixed MNIST handwritten digit database test split, sourced from output/data/ml_confusion_matrix.csv; it diagnoses the selected run, not general full-dataset performance. Generation method: Row-normalized heatmap with cell counts and row percentages. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_confusion_matrix.png){#fig:ml_confusion_matrix width="0.72\textwidth"}
+![Accepted-candidate confusion matrix for exp-mlp-tanh-64 on the fixed MNIST handwritten digit database test split, sourced from output/data/ml_confusion_matrix.csv; it diagnoses the selected run, not general full-dataset performance. Generation method: Row-normalized heatmap with cell counts and row percentages. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_confusion_matrix.png){#fig:ml_confusion_matrix width="0.72\textwidth"}
 
-![Per-class accuracy for exp-mlp-tanh-64, computed from output/data/ml_confusion_matrix.csv; variation across digits is a run diagnostic for the fixed local test split. Generation method: Per-class accuracy bars computed from the confusion matrix diagonal. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_per_class_accuracy.png){#fig:ml_per_class_accuracy width="0.78\textwidth"}
+![Per-class accuracy for exp-mlp-tanh-64, computed from output/data/ml_confusion_matrix.csv; variation across digits is a run diagnostic for the fixed local test split. Generation method: Per-class accuracy bars computed from the confusion matrix diagonal. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_per_class_accuracy.png){#fig:ml_per_class_accuracy width="0.78\textwidth"}
 
 ## Training And Error Diagnostics {#sec:training-error-diagnostics}
 
-![Epoch-level held-out accuracy curves for evaluated candidates from output/data/ml_training_history.csv; the accepted curve is visually emphasized for exp-mlp-tanh-64. Generation method: Epoch-level held-out accuracy lines with accepted best-epoch marker. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_learning_curves.png){#fig:ml_learning_curves width="0.82\textwidth"}
+![Epoch-level held-out accuracy curves for evaluated candidates from output/data/ml_training_history.csv; the accepted curve is visually emphasized for exp-mlp-tanh-64. Generation method: Epoch-level held-out accuracy lines with accepted best-epoch marker. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_learning_curves.png){#fig:ml_learning_curves width="0.82\textwidth"}
 
-![Configured-training dynamics for evaluated candidates from output/data/ml_training_diagnostics.json; exp-mlp-tanh-64 is highlighted while best-epoch markers and train-test gaps remain bounded to the local run. Generation method: Final and best-epoch accuracy bars plus train-test gap bars. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_training_dynamics.png){#fig:ml_training_dynamics width="0.84\textwidth"}
+![Configured-training dynamics for evaluated candidates from output/data/ml_training_diagnostics.json; exp-mlp-tanh-64 is highlighted while best-epoch markers and train-test gaps remain bounded to the local run. Generation method: Final and best-epoch accuracy bars plus train-test gap bars. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_training_dynamics.png){#fig:ml_training_dynamics width="0.84\textwidth"}
 
-![Parameter-count versus held-out accuracy for the baseline and evaluated candidates from output/data/ml_task_results.json; the accepted candidate is highlighted without claiming a general scaling law. Generation method: Log-parameter scatter plot against held-out accuracy. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_complexity_accuracy.png){#fig:ml_complexity_accuracy width="0.78\textwidth"}
+![Parameter-count versus held-out accuracy for the baseline and evaluated candidates from output/data/ml_task_results.json; the accepted candidate is highlighted without claiming a general scaling law. Generation method: Log-parameter scatter plot against held-out accuracy. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_complexity_accuracy.png){#fig:ml_complexity_accuracy width="0.78\textwidth"}
 
-![First accepted-candidate error examples for exp-mlp-tanh-64, sourced from output/data/ml_error_examples.json and data/mnist_small.npz; these images support qualitative diagnosis only. Generation method: Deterministic grid of the first accepted-candidate misclassifications. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/mnist_error_examples.png){#fig:mnist_error_examples width="0.82\textwidth"}
+![First accepted-candidate error examples for exp-mlp-tanh-64, sourced from output/data/ml_error_examples.json and data/mnist_small.npz; these images support qualitative diagnosis only. Generation method: Deterministic grid of the first accepted-candidate misclassifications. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/mnist_error_examples.png){#fig:mnist_error_examples width="0.82\textwidth"}
 
-![Candidate lifecycle ledger from output/data/ml_candidate_ledger.json: 4 evaluated out of 5 proposed candidates, with deferred proposals kept visible instead of executed automatically. Generation method: Candidate lifecycle status-count bar chart. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/autoresearch_candidate_lifecycle.png){#fig:autoresearch_candidate_lifecycle width="0.78\textwidth"}
+![Candidate lifecycle ledger from output/data/ml_candidate_ledger.json: 4 evaluated out of 5 proposed candidates, with deferred proposals kept visible instead of executed automatically. Generation method: Candidate lifecycle status-count bar chart. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/autoresearch_candidate_lifecycle.png){#fig:autoresearch_candidate_lifecycle width="0.78\textwidth"}
 
 The selected candidate's best held-out epoch is `14`, its
 final learning rate is `0.144`, its train-loss
@@ -715,11 +729,11 @@ digit, and @fig:ml_confusion_pairs ranks the non-diagonal confusions
 that most shape the selected-candidate error profile. The accompanying tables
 preserve the same values for audit and downstream comparison.
 
-![Reliability curve for exp-mlp-tanh-64 from output/data/ml_calibration_report.json; expected calibration error and bin counts summarize the accepted candidate on the fixed local test split. Generation method: Reliability curve with confidence-bin support histogram. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_calibration_reliability.png){#fig:ml_calibration_reliability width="0.82\textwidth"}
+![Reliability curve for exp-mlp-tanh-64 from output/data/ml_calibration_report.json; expected calibration error and bin counts summarize the accepted candidate on the fixed local test split. Generation method: Reliability curve with confidence-bin support histogram. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_calibration_reliability.png){#fig:ml_calibration_reliability width="0.82\textwidth"}
 
-![Per-class precision, recall, and F1 for exp-mlp-tanh-64, sourced from output/data/ml_classification_diagnostics.json; metrics are scoped to the local test split. Generation method: Per-class precision, recall, and F1 heatmap. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_classification_metrics_heatmap.png){#fig:ml_classification_metrics_heatmap width="0.76\textwidth"}
+![Per-class precision, recall, and F1 for exp-mlp-tanh-64, sourced from output/data/ml_classification_diagnostics.json; metrics are scoped to the local test split. Generation method: Per-class precision, recall, and F1 heatmap. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_classification_metrics_heatmap.png){#fig:ml_classification_metrics_heatmap width="0.76\textwidth"}
 
-![Top non-diagonal confusion pairs for exp-mlp-tanh-64, sourced from output/data/ml_classification_diagnostics.json; the bars highlight which local digit pairs account for accepted-candidate errors. Generation method: Ranked off-diagonal confusion-pair bars with true-class error rates. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_confusion_pairs.png){#fig:ml_confusion_pairs width="0.82\textwidth"}
+![Top non-diagonal confusion pairs for exp-mlp-tanh-64, sourced from output/data/ml_classification_diagnostics.json; the bars highlight which local digit pairs account for accepted-candidate errors. Generation method: Ranked off-diagonal confusion-pair bars with true-class error rates. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_confusion_pairs.png){#fig:ml_confusion_pairs width="0.82\textwidth"}
 
 | Class | Precision | Recall | F1 | Support |
 | --- | --- | --- | --- | --- |
@@ -800,15 +814,15 @@ distributions, @fig:ml_bootstrap_intervals shows local resampling
 intervals, and @fig:ml_paired_correctness exposes the matched
 selected-versus-baseline correctness table used by the paired comparison.
 
-![Train/test accuracy and loss for evaluated candidates from output/data/ml_classification_diagnostics.json; the plot exposes local generalization gaps without claiming full-dataset behavior. Generation method: Grouped train/test accuracy and loss bars by evaluated candidate. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_generalization_gap.png){#fig:ml_generalization_gap width="0.82\textwidth"}
+![Train/test accuracy and loss for evaluated candidates from output/data/ml_classification_diagnostics.json; the plot exposes local generalization gaps without claiming full-dataset behavior. Generation method: Grouped train/test accuracy and loss bars by evaluated candidate. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_generalization_gap.png){#fig:ml_generalization_gap width="0.82\textwidth"}
 
-![Accuracy for evaluated candidates under identity, one-pixel shifts, and low contrast from output/data/ml_robustness_report.json; the deterministic transforms provide a bounded smoke test only. Generation method: Candidate-by-transform accuracy heatmap for deterministic perturbations. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_robustness_matrix.png){#fig:ml_robustness_matrix width="0.84\textwidth"}
+![Accuracy for evaluated candidates under identity, one-pixel shifts, and low contrast from output/data/ml_robustness_report.json; the deterministic transforms provide a bounded smoke test only. Generation method: Candidate-by-transform accuracy heatmap for deterministic perturbations. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_robustness_matrix.png){#fig:ml_robustness_matrix width="0.84\textwidth"}
 
-![Confidence and prediction-margin histograms for exp-mlp-tanh-64 from output/data/ml_probability_diagnostics.json; the figure separates correct and incorrect local test predictions. Generation method: Confidence and margin histograms split by correctness. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_probability_margin_distribution.png){#fig:ml_probability_margin_distribution width="0.82\textwidth"}
+![Confidence and prediction-margin histograms for exp-mlp-tanh-64 from output/data/ml_probability_diagnostics.json; the figure separates correct and incorrect local test predictions. Generation method: Confidence and margin histograms split by correctness. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_probability_margin_distribution.png){#fig:ml_probability_margin_distribution width="0.82\textwidth"}
 
-![Deterministic percentile-bootstrap intervals for exp-mlp-tanh-64 from output/data/ml_bootstrap_intervals.json; the intervals summarize local sampling variation for accuracy and macro F1. Generation method: Horizontal percentile-bootstrap interval plot. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_bootstrap_intervals.png){#fig:ml_bootstrap_intervals width="0.78\textwidth"}
+![Deterministic percentile-bootstrap intervals for exp-mlp-tanh-64 from output/data/ml_bootstrap_intervals.json; the intervals summarize local sampling variation for accuracy and macro F1. Generation method: Horizontal percentile-bootstrap interval plot. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_bootstrap_intervals.png){#fig:ml_bootstrap_intervals width="0.78\textwidth"}
 
-![Matched correctness comparison between exp-mlp-tanh-64 and the nearest_centroid_baseline baseline from output/data/ml_paired_comparison.json; discordant cells support the paired test summary. Generation method: Matched accepted-versus-baseline correctness heatmap. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_paired_correctness.png){#fig:ml_paired_correctness width="0.66\textwidth"}
+![Matched correctness comparison between exp-mlp-tanh-64 and the nearest_centroid_baseline baseline from output/data/ml_paired_comparison.json; discordant cells support the paired test summary. Generation method: Matched accepted-versus-baseline correctness heatmap. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_paired_correctness.png){#fig:ml_paired_correctness width="0.66\textwidth"}
 
 | Candidate | Transform | Accuracy | Samples |
 | --- | --- | --- | --- |
@@ -878,9 +892,11 @@ candidate probability-quality comparison in @fig:ml_probability_quality
 keeps accuracy separate from proper-score behavior, so the selected candidate is
 not treated as automatically best on every diagnostic axis.
 
-![Confidence-threshold trade-off for exp-mlp-tanh-64 from output/data/ml_statistical_summary.json; the plot compares retained coverage, selective accuracy, and the unthresholded accepted-candidate accuracy on the fixed local split. Generation method: Confidence-threshold coverage and selective-accuracy line chart. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_selective_accuracy.png){#fig:ml_selective_accuracy width="0.76\textwidth"}
+![Confidence-threshold trade-off for exp-mlp-tanh-64 from output/data/ml_statistical_summary.json; the plot compares retained coverage, selective accuracy, and the unthresholded accepted-candidate accuracy on the fixed local split. Generation method: Confidence-threshold coverage and selective-accuracy line chart. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_selective_accuracy.png){#fig:ml_selective_accuracy width="0.76\textwidth"}
 
-![Brier score and negative log likelihood for evaluated candidates from output/data/ml_statistical_summary.json; lower values indicate better probability quality within the configured local run, and the accepted candidate is highlighted. Generation method: Brier score and negative-log-likelihood bar comparison. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/ml_probability_quality.png){#fig:ml_probability_quality width="0.82\textwidth"}
+![Brier score and negative log likelihood for evaluated candidates from output/data/ml_statistical_summary.json; lower values indicate better probability quality within the configured local run, and the accepted candidate is highlighted. Generation method: Brier score and negative-log-likelihood bar comparison. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/ml_probability_quality.png){#fig:ml_probability_quality width="0.82\textwidth"}
+
+\clearpage
 
 | Statistic | Value |
 | --- | --- |
@@ -943,6 +959,7 @@ surface supports and what it does not support.
 : Candidate-selection audit from `output/data/ml_candidate_selection_audit.json`; the objective metric ranks candidates, while probability diagnostics and parameter counts audit the chosen tie-break context. {#tbl:candidate-selection-audit}
 
 \begingroup\footnotesize
+
 | Surface | Source | Method | Supports | Does not support |
 | --- | --- | --- | --- | --- |
 | objective selection | [task results](../data/ml_task_results.json) | rank evaluated candidates by configured held-out metric and deterministic tie... | accepted-candidate selection within this fixed local task | full MNIST state-of-the-art, external benchmark leadership, or universal mode... |
@@ -952,6 +969,7 @@ surface supports and what it does not support.
 | review governance | [review decisions](../data/review_decisions.json) | deferred generated review decisions with human review required | readiness for human review | machine self-approval or publication acceptance |
 
 : Diagnostic claim-boundary table from `output/data/ml_diagnostic_boundary.json`. {#tbl:diagnostic-boundary}
+
 \endgroup
 
 ## Readiness And Review Artifacts {#sec:readiness-review-artifacts}
@@ -966,92 +984,96 @@ observed artifact record(s) with checksums and approval state
 figure-quality report covers `25` registered
 figure(s) with validity `false`.
 
-![Validated AutoResearch run with 7 stages, 6 supported claims, and 78 required artifacts from output/data/autoresearch_loop.json; the count summarizes readiness artifacts, not human approval. Generation method: Horizontal count summary from final loop metrics. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/autoresearch_stage_matrix.png){#fig:autoresearch_stage_matrix width="0.8\textwidth"}
+![Validated AutoResearch run with 7 stages, 6 supported claims, and 78 required artifacts from output/data/autoresearch_loop.json; the count summarizes readiness artifacts, not human approval. Generation method: Horizontal count summary from final loop metrics. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/autoresearch_stage_matrix.png){#fig:autoresearch_stage_matrix width="0.8\textwidth"}
 
-![File-backed AutoResearch closure from program through review, with 6 supported claims and readiness passed; review remains a deferred human decision and the provenance path remains inspectable. Generation method: File-backed process-flow diagram from final loop state. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/autoresearch_closure_flow.png){#fig:autoresearch_closure_flow width="0.95\textwidth"}
+![File-backed AutoResearch closure from program through review, with 6 supported claims and readiness passed; review remains a deferred human decision and the provenance path remains inspectable. Generation method: File-backed process-flow diagram from final loop state. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/autoresearch_closure_flow.png){#fig:autoresearch_closure_flow width="0.95\textwidth"}
 
-| Artifact | Role | Bytes |
-| --- | --- | --- |
-| output/data/autoresearch_claims.json | Loop artifact | 1766 |
-| output/data/autoresearch_evidence_overview.json | Evidence registry | 4436 |
-| output/data/autoresearch_integrity_attestation.json | Security evidence | 22755 |
-| output/data/autoresearch_inventory_export.json | Security evidence | 20203 |
-| output/data/autoresearch_loop.json | Loop artifact | 16085 |
-| output/data/autoresearch_phase_ledger.json | Run or candidate ledger | 3779 |
-| output/data/autoresearch_plan.json | Loop artifact | 17361 |
-| output/data/autoresearch_review_packet.json | Review packet | 16204 |
-| output/data/autoresearch_schema_manifest.json | Loop artifact | 7226 |
-| output/data/autoresearch_security_profile.json | Security evidence | 1537 |
-| output/data/autoresearch_stage_matrix.csv | Loop artifact | 749 |
-| output/data/autoresearch_supply_chain_inventory.json | Security evidence | 21459 |
-| output/data/autoresearch_threat_model.json | Security evidence | 6370 |
-| output/data/benchmark_boundary.json | Benchmark grading | 2363 |
-| output/data/benchmark_scores.json | Benchmark grading | 621 |
-| output/data/figure_quality_report.json | Loop artifact | 16040 |
-| output/data/figure_style.json | Loop artifact | 1117 |
-| output/data/idea_ledger.json | Run or candidate ledger | 5233 |
-| output/data/manuscript_figure_blocks.json | Manuscript hydration | 13062 |
-| output/data/manuscript_variable_provenance.json | Manuscript hydration | 30891 |
-| output/data/manuscript_variables.json | Manuscript hydration | 54968 |
-| output/data/ml_bootstrap_intervals.json | Loop artifact | 615 |
-| output/data/ml_calibration_bin_intervals.json | Loop artifact | 2879 |
-| output/data/ml_calibration_report.json | Loop artifact | 2201 |
-| output/data/ml_candidate_intervals.json | Loop artifact | 1577 |
-| output/data/ml_candidate_ledger.json | Run or candidate ledger | 570872 |
-| output/data/ml_candidate_rank_stability.json | Loop artifact | 3135 |
-| output/data/ml_candidate_selection_audit.json | Loop artifact | 2145 |
-| output/data/ml_class_balance.json | Loop artifact | 2393 |
-| output/data/ml_classification_diagnostics.json | Loop artifact | 4246 |
-| output/data/ml_confusion_matrix.csv | Loop artifact | 271 |
-| output/data/ml_diagnostic_boundary.json | Loop artifact | 2064 |
-| output/data/ml_error_examples.json | Loop artifact | 989 |
-| output/data/ml_paired_comparison.json | Loop artifact | 470 |
-| output/data/ml_prediction_records.json | Loop artifact | 989913 |
-| output/data/ml_probability_diagnostics.json | Loop artifact | 3045 |
-| output/data/ml_robustness_report.json | Loop artifact | 3758 |
-| output/data/ml_statistical_summary.json | Loop artifact | 3032 |
-| output/data/ml_task_results.json | Loop artifact | 703566 |
-| output/data/ml_training_diagnostics.json | Loop artifact | 2968 |
-| output/data/ml_training_history.csv | Loop artifact | 6775 |
-| output/data/mnist_task_config.json | Loop artifact | 3926 |
-| output/data/research_object_manifest.json | Loop artifact | 20789 |
-| output/data/research_program.json | Loop artifact | 965 |
-| output/data/review_decisions.json | Review packet | 669 |
-| output/data/run_ledger.json | Run or candidate ledger | 328 |
-| ../figures/autoresearch_candidate_lifecycle.png | Generated figure | 28053 |
-| ../figures/autoresearch_closure_flow.png | Generated figure | 40410 |
-| ../figures/autoresearch_integrity_chain.png | Generated figure | 48256 |
-| ../figures/autoresearch_security_control_matrix.png | Generated figure | 86574 |
-| ../figures/ml_bootstrap_intervals.png | Generated figure | 21834 |
-| ../figures/ml_calibration_reliability.png | Generated figure | 73889 |
-| ../figures/ml_candidate_rank_stability.png | Generated figure | 43692 |
-| ../figures/ml_candidate_scores.png | Generated figure | 59953 |
-| ../figures/ml_classification_metrics_heatmap.png | Generated figure | 55092 |
-| ../figures/ml_complexity_accuracy.png | Generated figure | 35135 |
-| ../figures/ml_confusion_matrix.png | Generated figure | 65820 |
-| ../figures/ml_confusion_pairs.png | Generated figure | 33982 |
-| ../figures/ml_generalization_gap.png | Generated figure | 48512 |
-| ../figures/ml_learning_curves.png | Generated figure | 59258 |
-| ../figures/ml_paired_correctness.png | Generated figure | 43309 |
-| ../figures/ml_per_class_accuracy.png | Generated figure | 34800 |
-| ../figures/ml_probability_margin_distribution.png | Generated figure | 41754 |
-| ../figures/ml_probability_quality.png | Generated figure | 38071 |
-| ../figures/ml_robustness_matrix.png | Generated figure | 51332 |
-| ../figures/ml_selective_accuracy.png | Generated figure | 48274 |
-| ../figures/ml_training_dynamics.png | Generated figure | 51004 |
-| ../figures/mnist_class_balance.png | Generated figure | 27059 |
-| ../figures/mnist_error_examples.png | Generated figure | 28431 |
-| ../figures/mnist_subset_contact_sheet.png | Generated figure | 23617 |
-| output/reports/autoresearch_evidence_overview.md | Evidence registry | 1136 |
-| output/reports/autoresearch_loop.json | Loop artifact | 16085 |
-| output/reports/autoresearch_review_packet.md | Review packet | 912 |
-| output/reports/autoresearch_security_review.md | Review packet | 1104 |
-| output/reports/autoresearch_summary.md | Loop artifact | 255 |
-| output/reports/benchmark_readiness_smoke.json | Benchmark grading | 778 |
-| output/reports/ml_benchmark_score.json | Benchmark grading | 382 |
-| output/reports/ml_experiment_report.md | Loop artifact | 1687 |
+\clearpage
 
-: Generated artifact manifest from `output/reports/artifact_manifest.json`. {#tbl:autoresearch-loop}
+| Artifact | Role |
+| --- | --- |
+| output/data/autoresearch_claims.json | Loop artifact |
+| output/data/autoresearch_evidence_overview.json | Evidence registry |
+| output/data/autoresearch_integrity_attestation.json | Security evidence |
+| output/data/autoresearch_inventory_export.json | Security evidence |
+| output/data/autoresearch_loop.json | Loop artifact |
+| output/data/autoresearch_phase_ledger.json | Run or candidate ledger |
+| output/data/autoresearch_plan.json | Loop artifact |
+| output/data/autoresearch_review_packet.json | Review packet |
+| output/data/autoresearch_schema_manifest.json | Loop artifact |
+| output/data/autoresearch_security_profile.json | Security evidence |
+| output/data/autoresearch_stage_matrix.csv | Loop artifact |
+| output/data/autoresearch_supply_chain_inventory.json | Security evidence |
+| output/data/autoresearch_threat_model.json | Security evidence |
+| output/data/benchmark_boundary.json | Benchmark grading |
+| output/data/benchmark_scores.json | Benchmark grading |
+| output/data/figure_quality_report.json | Loop artifact |
+| output/data/figure_style.json | Loop artifact |
+| output/data/idea_ledger.json | Run or candidate ledger |
+| output/data/ml_bootstrap_intervals.json | Loop artifact |
+| output/data/ml_calibration_bin_intervals.json | Loop artifact |
+| output/data/ml_calibration_report.json | Loop artifact |
+| output/data/ml_candidate_intervals.json | Loop artifact |
+| output/data/ml_candidate_ledger.json | Run or candidate ledger |
+| output/data/ml_candidate_rank_stability.json | Loop artifact |
+| output/data/ml_candidate_selection_audit.json | Loop artifact |
+| output/data/ml_class_balance.json | Loop artifact |
+| output/data/ml_classification_diagnostics.json | Loop artifact |
+| output/data/ml_confusion_matrix.csv | Loop artifact |
+| output/data/ml_diagnostic_boundary.json | Loop artifact |
+| output/data/ml_error_examples.json | Loop artifact |
+| output/data/ml_paired_comparison.json | Loop artifact |
+| output/data/ml_prediction_records.json | Loop artifact |
+| output/data/ml_probability_diagnostics.json | Loop artifact |
+| output/data/ml_robustness_report.json | Loop artifact |
+| output/data/ml_statistical_summary.json | Loop artifact |
+| output/data/ml_task_results.json | Loop artifact |
+| output/data/ml_training_diagnostics.json | Loop artifact |
+| output/data/ml_training_history.csv | Loop artifact |
+| output/data/mnist_task_config.json | Loop artifact |
+| output/data/research_object_manifest.json | Loop artifact |
+| output/data/research_program.json | Loop artifact |
+| output/data/review_decisions.json | Review packet |
+| output/data/run_ledger.json | Run or candidate ledger |
+| figures/autoresearch_candidate_lifecycle.png | Generated figure |
+| figures/autoresearch_closure_flow.png | Generated figure |
+| figures/autoresearch_integrity_chain.png | Generated figure |
+| figures/autoresearch_security_control_matrix.png | Generated figure |
+| figures/autoresearch_stage_matrix.png | Generated figure |
+| figures/figure_registry.json | Loop artifact |
+| figures/ml_bootstrap_intervals.png | Generated figure |
+| figures/ml_calibration_reliability.png | Generated figure |
+| figures/ml_candidate_rank_stability.png | Generated figure |
+| figures/ml_candidate_scores.png | Generated figure |
+| figures/ml_classification_metrics_heatmap.png | Generated figure |
+| figures/ml_complexity_accuracy.png | Generated figure |
+| figures/ml_confusion_matrix.png | Generated figure |
+| figures/ml_confusion_pairs.png | Generated figure |
+| figures/ml_generalization_gap.png | Generated figure |
+| figures/ml_learning_curves.png | Generated figure |
+| figures/ml_paired_correctness.png | Generated figure |
+| figures/ml_per_class_accuracy.png | Generated figure |
+| figures/ml_probability_margin_distribution.png | Generated figure |
+| figures/ml_probability_quality.png | Generated figure |
+| figures/ml_robustness_matrix.png | Generated figure |
+| figures/ml_selective_accuracy.png | Generated figure |
+| figures/ml_training_dynamics.png | Generated figure |
+| figures/mnist_class_balance.png | Generated figure |
+| figures/mnist_error_examples.png | Generated figure |
+| figures/mnist_subset_contact_sheet.png | Generated figure |
+| output/reports/autoresearch_evidence_overview.md | Evidence registry |
+| output/reports/autoresearch_loop.json | Loop artifact |
+| output/reports/autoresearch_loop.md | Loop artifact |
+| output/reports/autoresearch_review_packet.md | Review packet |
+| output/reports/autoresearch_security_review.md | Review packet |
+| output/reports/autoresearch_summary.md | Loop artifact |
+| output/reports/benchmark_readiness_smoke.json | Benchmark grading |
+| output/reports/ml_benchmark_score.json | Benchmark grading |
+| output/reports/ml_experiment_report.md | Loop artifact |
+| output/reports/test_results.json | Loop artifact |
+| output/reports/test_results.md | Loop artifact |
+
+: Reviewed upstream analysis and evidence paths from `output/reports/artifact_manifest.json`; unreviewed paths are omitted, and that terminal manifest remains the complete byte authority. {#tbl:autoresearch-loop}
 
 | Gate | Required | Decision | Rationale |
 | --- | --- | --- | --- |
@@ -1062,8 +1084,8 @@ figure(s) with validity `false`.
 
 | Benchmark task | Status | Score | Grading output |
 | --- | --- | --- | --- |
-| readiness-smoke | graded | 1 | output/reports/benchmark_readiness_smoke.json |
-| ml-loop-score | graded | 1 | output/reports/ml_benchmark_score.json |
+| readiness-smoke | graded | 1 | `output/reports/benchmark_readiness_smoke.json` |
+| ml-loop-score | graded | 1 | `output/reports/ml_benchmark_score.json` |
 
 : Benchmark grading table from `output/data/benchmark_scores.json`. {#tbl:benchmark-scores}
 
@@ -1079,42 +1101,42 @@ figure(s) with validity `false`.
 | final visuals | 8 | figures | 54 | write final registry-backed figures |
 | manuscript hydration | 9 | manuscript | 9 | write variables, provenance, and figure blocks |
 | readiness manifest | 10 | settlement | 12 | refresh checksum manifest before extrinsic validation |
-| schema manifest | 11 | schema | 2 | write generated JSON schema-version manifest |
-| research object manifest | 12 | packaging | 2 | write local research-object manifest |
+| schema manifest | 11 | schema | 1 | write generated JSON schema-version manifest |
+| research object manifest | 12 | packaging | 1 | write local research-object manifest |
 | extrinsic readiness | 13 | readiness | 3 | validate generated artifacts and extrinsic contracts |
-| final schema manifest | 14 | schema | 2 | refresh schema manifest after final payload updates |
-| final research object manifest | 15 | packaging | 2 | refresh local research-object manifest |
+| final schema manifest | 14 | schema | 1 | refresh schema manifest after final payload updates |
+| final research object manifest | 15 | packaging | 1 | refresh local research-object manifest |
 | artifact manifest | 16 | settlement | 12 | write final artifact checksum manifest |
 
 : Deterministic phase ledger from `output/data/autoresearch_phase_ledger.json`; settlement order is not an autonomy claim. {#tbl:phase-ledger}
 
 | Figure | Pixels | Variance | Source exists | Nonblank |
 | --- | --- | --- | --- | --- |
-| fig:autoresearch_candidate_lifecycle | 1184x480 | 0.083 | True | True |
-| fig:autoresearch_closure_flow | 1664x448 | 0.015 | True | True |
-| fig:autoresearch_integrity_chain | 1440x734 | 0.040 | True | True |
-| fig:autoresearch_security_control_matrix | 1470x734 | 0.014 | True | True |
-| fig:autoresearch_stage_matrix | 1120x416 | 0.080 | True | True |
-| fig:ml_bootstrap_intervals | 1152x448 | 0.009 | True | True |
-| fig:ml_calibration_reliability | 1152x832 | 0.015 | True | True |
-| fig:ml_candidate_rank_stability | 1408x608 | 0.053 | True | True |
-| fig:ml_candidate_scores | 1376x688 | 0.013 | True | True |
-| fig:ml_classification_metrics_heatmap | 928x832 | 0.092 | True | True |
-| fig:ml_complexity_accuracy | 1120x608 | 0.010 | True | True |
-| fig:ml_confusion_matrix | 896x768 | 0.046 | True | True |
-| fig:ml_confusion_pairs | 1152x576 | 0.129 | True | True |
-| fig:ml_generalization_gap | 1184x864 | 0.059 | True | True |
-| fig:ml_learning_curves | 1216x608 | 0.018 | True | True |
-| fig:ml_paired_correctness | 768x672 | 0.075 | True | True |
-| fig:ml_per_class_accuracy | 1152x512 | 0.098 | True | True |
-| fig:ml_probability_margin_distribution | 1184x864 | 0.024 | True | True |
-| fig:ml_probability_quality | 1344x608 | 0.046 | True | True |
-| fig:ml_robustness_matrix | 1280x608 | 0.073 | True | True |
-| fig:ml_selective_accuracy | 1088x608 | 0.016 | True | True |
-| fig:ml_training_dynamics | 1408x608 | 0.072 | True | True |
-| fig:mnist_class_balance | 1216x544 | 0.071 | True | True |
-| fig:mnist_error_examples | 1280x734 | 0.234 | True | True |
-| fig:mnist_subset_contact_sheet | 1216x544 | 0.228 | True | True |
+| `fig:autoresearch_candidate_lifecycle` | 1184x480 | 0.082 | True | True |
+| `fig:autoresearch_closure_flow` | 1664x448 | 0.015 | True | True |
+| `fig:autoresearch_integrity_chain` | 1440x736 | 0.040 | True | True |
+| `fig:autoresearch_security_control_matrix` | 1472x736 | 0.014 | True | True |
+| `fig:autoresearch_stage_matrix` | 1120x416 | 0.079 | True | True |
+| `fig:ml_bootstrap_intervals` | 1152x448 | 0.009 | True | True |
+| `fig:ml_calibration_reliability` | 1152x832 | 0.015 | True | True |
+| `fig:ml_candidate_rank_stability` | 1408x608 | 0.053 | True | True |
+| `fig:ml_candidate_scores` | 1376x688 | 0.013 | True | True |
+| `fig:ml_classification_metrics_heatmap` | 928x832 | 0.085 | True | True |
+| `fig:ml_complexity_accuracy` | 1120x608 | 0.010 | True | True |
+| `fig:ml_confusion_matrix` | 896x768 | 0.045 | True | True |
+| `fig:ml_confusion_pairs` | 1152x576 | 0.129 | True | True |
+| `fig:ml_generalization_gap` | 1184x864 | 0.059 | True | True |
+| `fig:ml_learning_curves` | 1216x608 | 0.018 | True | True |
+| `fig:ml_paired_correctness` | 768x672 | 0.074 | True | True |
+| `fig:ml_per_class_accuracy` | 1152x512 | 0.098 | True | True |
+| `fig:ml_probability_margin_distribution` | 1184x864 | 0.024 | True | True |
+| `fig:ml_probability_quality` | 1344x608 | 0.046 | True | True |
+| `fig:ml_robustness_matrix` | 1280x608 | 0.079 | True | True |
+| `fig:ml_selective_accuracy` | 1088x608 | 0.016 | True | True |
+| `fig:ml_training_dynamics` | 1408x608 | 0.072 | True | True |
+| `fig:mnist_class_balance` | 1216x544 | 0.071 | True | True |
+| `fig:mnist_error_examples` | 1280x736 | 0.234 | True | True |
+| `fig:mnist_subset_contact_sheet` | 1216x544 | 0.230 | True | True |
 
 : Figure-quality checks from `output/data/figure_quality_report.json`; 25 registered figure(s) were checked. {#tbl:figure-quality}
 
@@ -1131,7 +1153,7 @@ integrity-chain figure is @fig:autoresearch_integrity_chain. These values suppor
 local artifact-integrity claims only; they do not claim external signing,
 production SLSA compliance, or runtime security monitoring.
 
-![Local integrity chain from output/data/autoresearch_integrity_attestation.json; checksums summarize the observed run artifacts and remain unsigned local evidence. Generation method: Local checksum attestation chain with checked, missing, and mismatch counts. Registry metadata records the generation method, source artifact, and claim boundary for validation.](../figures/autoresearch_integrity_chain.png){#fig:autoresearch_integrity_chain width="0.84\textwidth"}
+![Local integrity chain from output/data/autoresearch_integrity_attestation.json; checksums summarize the observed run artifacts and remain unsigned local evidence. Generation method: Local checksum attestation chain with checked, missing, and mismatch counts. Registry metadata records the generation method, source artifact, and claim boundary for validation.](figures/autoresearch_integrity_chain.png){#fig:autoresearch_integrity_chain width="0.84\textwidth"}
 
 | Integrity field | Value |
 | --- | --- |
@@ -1152,6 +1174,8 @@ manuscript uses injected variables from generated data payloads, so the abstract
 and results track the latest analysis run rather than hard-coded counts. The
 final readiness status is `passed`; generated review decisions are
 recorded as deferred for human review rather than as self-approval.
+
+\clearpage
 
 | Source artifact | Injected variables or fragments |
 | --- | --- |
@@ -1183,7 +1207,7 @@ recorded as deferred for human review rather than as self-approval.
 | output/data/ml_training_diagnostics.json | 7 |
 | output/data/research_object_manifest.json | 2 |
 | output/data/review_decisions.json | 1 |
-| ../figures/figure_registry.json | 51 |
+| figures/figure_registry.json | 51 |
 | output/reports/artifact_manifest.json | 1 |
 
 : Variable provenance summary from `output/data/manuscript_variable_provenance.json`. {#tbl:variable-provenance}
@@ -1265,11 +1289,11 @@ References are managed in `references.bib`.
 \section*{END OF TRANSMISSION}\label{end-of-transmission}
 ```
 
-**Release:** v0.3.2 · DOI `10.5281/zenodo.20417016` · SHA-256 `e07b62850a19…` · pairing complete
+**Release:** v0.4.0 · DOI `10.5281/zenodo.20417016` · SHA-256 `pending…` · pairing pending
 
-![Integrity QR strip](../figures/transmission_integrity_strip.png){width=88%}
+![Integrity QR strip](figures/transmission_integrity_strip.png){width=88%}
 
-**Prior:** `v0.3.1` · `10.5281/zenodo.20417016` · `537dd8a6…`
+**Prior:** `v0.3.2` · `10.5281/zenodo.20931907` · `e07b6285…`
 
 ```{=latex}
 \end{samepage}

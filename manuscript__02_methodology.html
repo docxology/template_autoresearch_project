@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="pandoc 3.10" />
+  <meta name="generator" content="pandoc 3.13" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>02_methodology.md.web</title>
   <style>
@@ -11,7 +11,10 @@
     */
     html {
       color: #1a1a1a;
+      color: light-dark(#1a1a1a, #fdfdfd);
       background-color: #fdfdfd;
+      background-color: light-dark(#fdfdfd, #1a1a1a);
+      color-scheme: light dark;
     }
     body {
       margin: 0 auto;
@@ -36,12 +39,16 @@
     }
     @media print {
       html {
-        background-color: white;
+        color-scheme: light only;
       }
-      body {
+      html, body, pre, code {
         background-color: transparent;
+      }
+      body, a, a:visited, blockquote {
         color: black;
-        font-size: 12pt;
+      }
+      pre, code {
+        padding: 0;
       }
       p, h2, h3 {
         orphans: 3;
@@ -54,11 +61,8 @@
     p {
       margin: 1em 0;
     }
-    a {
-      color: #1a1a1a;
-    }
-    a:visited {
-      color: #1a1a1a;
+    a, a:visited {
+      color: inherit;
     }
     img {
       max-width: 100%;
@@ -87,8 +91,11 @@
     blockquote {
       margin: 1em 0 1em 1.7em;
       padding-left: 1em;
-      border-left: 2px solid #e6e6e6;
+      border-left: 2px solid;
+      border-color: #e6e6e6;
+      border-color: light-dark(#e6e6e6, #4c4c4c);
       color: #606060;
+      color: light-dark(#606060, #b6b6b6);
     }
     code {
       white-space: pre-wrap;
@@ -112,7 +119,7 @@
     }
     hr {
       border: none;
-      border-top: 1px solid #1a1a1a;
+      border-top: 1px solid currentColor;
       height: 1px;
       margin: 1em 0;
     }
@@ -129,11 +136,11 @@
     }
     tbody {
       margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
+      border-top: 1px solid currentColor;
+      border-bottom: 1px solid currentColor;
     }
     th {
-      border-top: 1px solid #1a1a1a;
+      border-top: 1px solid currentColor;
       padding: 0.25em 0.5em 0.25em 0.5em;
     }
     td {
@@ -173,15 +180,420 @@
       vertical-align: middle;
     }
   </style>
+
+<link data-template-favicon rel="icon" href="favicon.ico">
+
+<style>
+:root {
+  --brand-1: #5b6ee0;
+  --web-bg: #f8f8f8;
+  --web-surface: #ffffff;
+  --web-text: #2c3e50;
+  --web-border: #bdc3c7;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brand-1: #7e8ce8;
+    --web-bg: #0f1420;
+    --web-surface: #161c2b;
+    --web-text: #e6eaf2;
+    --web-border: #2a3447;
+  }
+}
+.theorem-box {
+  border-left: 4px solid var(--brand-1);
+  background: var(--web-surface);
+  padding: 0.6em 1em;
+  margin: 1.1em 0;
+  border-radius: 0 4px 4px 0;
+}
+.theorem-box.definition { border-left-style: dashed; }
+.theorem-box > p:first-child { margin-top: 0; }
+.theorem-box > p:last-child { margin-bottom: 0; }
+.figure-long-description {
+  border: 1px solid var(--web-border);
+  border-radius: 4px;
+  margin-block: 0.75rem;
+  padding: 0.5rem 0.75rem;
+}
+.figure-long-description > summary { cursor: pointer; font-weight: 700; }
+.figure-long-description > p { max-width: 80ch; overflow-wrap: anywhere; }
+.figure-exact-values { max-width: 80ch; overflow-wrap: anywhere; }
+code { overflow-wrap: anywhere; word-break: break-word; }
+pre {
+  max-width: 100%;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+pre code { overflow-wrap: inherit; white-space: inherit; word-break: inherit; }
+div.sourceCode { max-width: 100%; overflow: visible; }
+pre.sourceCode { background: #2c3e50; color: #ecf0f1; }
+pre.sourceCode code,
+pre.sourceCode code span { color: inherit; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+mjx-container[display="true"] { max-width: 100%; overflow: visible; }
+.table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
+}
+.table-scroll:focus-visible {
+  outline: 3px solid var(--brand-1);
+  outline-offset: 3px;
+}
+.table-scroll > table { margin-block: 0; display: table; min-width: 100%; width: 100%; }
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+body {
+  font-family: 'Liberation Serif', 'Times New Roman', serif;
+  line-height: 1.6;
+  width: min(100%, 800px);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f8f8;
+  color: #1a1a1a;
+  overflow-wrap: break-word;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+main,
+nav,
+section,
+article,
+figure,
+figcaption {
+  min-width: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 0.65rem 0.9rem;
+  transform: translateY(-120%);
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.skip-link:visited {
+  color: #ffffff;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  body {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  figure img {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 800px) {
+  body {
+    width: 100%;
+    max-width: 100vw;
+    margin: 0 auto;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 5px;
+  overflow-wrap: anywhere;
+}
+
+code {
+  background-color: #ecf0f1;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: 'Liberation Mono', 'Courier New', monospace;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+pre {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 15px;
+  border-radius: 5px;
+  max-width: 100%;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  overflow-wrap: inherit;
+  white-space: inherit;
+  word-break: inherit;
+}
+
+div.sourceCode {
+  max-width: 100%;
+  overflow: visible;
+}
+
+pre.sourceCode {
+  background: #2c3e50;
+  color: #ecf0f1;
+}
+
+pre.sourceCode code,
+pre.sourceCode code span {
+  color: inherit;
+}
+
+pre > code.sourceCode {
+  white-space: pre-wrap;
+}
+
+pre > code.sourceCode > span {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
+}
+
+.table-scroll:focus-visible {
+  outline: 3px solid #1f6f8b;
+  outline-offset: 3px;
+}
+
+.table-scroll > table {
+  margin-block: 0;
+  display: table;
+  min-width: 100%;
+  width: 100%;
+}
+
+figure {
+  max-width: 100%;
+  margin: 1.5rem 0;
+}
+
+th, td {
+  border: 1px solid #bdc3c7;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #1f6f8b;
+  color: white;
+}
+
+/* Preserve a complete inline-code header within the table's scroll region. */
+th code {
+  color: inherit;
+  background-color: transparent;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  margin: 20px 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a {
+  color: #b91c1c;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.14em;
+  overflow-wrap: anywhere;
+}
+
+a:visited {
+  color: #8f1d1d;
+}
+
+a:hover {
+  text-decoration-thickness: 0.14em;
+}
+
+a:focus-visible {
+  outline: 3px solid #1f6f8b;
+  outline-offset: 3px;
+}
+
+.toc {
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
+.toc a,
+#TOC a {
+  color: #b91c1c;
+  display: inline-block;
+  min-height: 28px;
+  line-height: 1.5;
+  padding-block: 2px;
+}
+
+.toc li,
+#TOC li {
+  margin-block: 1px;
+}
+
+.math {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 1.1em;
+}
+
+mjx-container[display="true"] {
+  display: block;
+  max-width: 100%;
+  overflow: visible;
+  padding-bottom: 0.25rem;
+}
+
+.figure {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.figure img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* A reading column keeps prose comfortable, but dense scientific figures need
+   a larger inspection surface.  The rendered image remains responsive and the
+   explicit link opens its source-resolution asset without changing the PDF. */
+.figure-full-size-link {
+  color: inherit;
+  display: block;
+  max-width: 100%;
+  text-align: center;
+}
+
+.figure-full-size-link img {
+  cursor: zoom-in;
+  margin-bottom: 0.45rem;
+}
+
+.figure-full-size-label {
+  color: #1f6f8b;
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.figure-full-size-link:focus-visible {
+  outline: 3px solid #1f6f8b;
+  outline-offset: 4px;
+}
+
+@media (min-width: 1000px) {
+  /* Wide figure links stay within the viewport but extend beyond the prose
+     column. Do not clip their labels at the narrower body boundary. */
+  body {
+    overflow-x: visible;
+  }
+
+  .figure-full-size-link {
+    left: 50%;
+    max-width: none;
+    position: relative;
+    transform: translateX(-50%);
+    width: min(1080px, calc(100vw - 3rem));
+  }
+}
+
+.figure-caption {
+  font-style: italic;
+  color: #4b5563;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.figure-long-description,
+.figure-exact-values {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+</style>
+<script data-template-source-font-loader src="assets/source-web-fonts.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<main id="main-content" tabindex="-1">
 <h1 id="sec:methodology">Methodology</h1>
 <p>The loop is implemented through the project source surface summarized
 by the validated run artifacts. The project scripts remain thin
 dispatchers; reusable behavior writes
 <code>output/data/autoresearch_loop.json</code>,
 <code>output/data/ml_task_results.json</code>,
-<code>../figures/figure_registry.json</code>,
+<code>figures/figure_registry.json</code>,
 <code>output/data/autoresearch_phase_ledger.json</code>, and
 <code>output/data/manuscript_variable_provenance.json</code>.</p>
 <h2 id="sec:task-data">Task And Data</h2>
@@ -200,16 +612,16 @@ data-cites="fig:mnist_class_balance">@fig:mnist_class_balance</span>,
 and the dataset contact sheet is <span class="citation"
 data-cites="fig:mnist_subset_contact_sheet">@fig:mnist_subset_contact_sheet</span>.</p>
 <figure id="fig:mnist_class_balance">
-<img src="../figures/mnist_class_balance.png"
-alt="Train and test class counts from output/data/ml_class_balance.json; the local fixture contains 2000 train and 500 test examples across 10 classes. Generation method: Grouped train/test class-count bars from the local MNIST fixture. Registry metadata records the generation method, source artifact, and claim boundary for validation." />
-<figcaption aria-hidden="true">Train and test class counts from
+<a class="figure-full-size-link" href="figures/mnist_class_balance.png" target="_blank" rel="noopener" aria-label="Open full-size figure, Train and test class counts from output/data/ml_class_balance.json"><img src="figures/mnist_class_balance.png"
+alt="Grouped bar chart showing train and test example counts for each digit class." /><span class="figure-full-size-label" aria-hidden="true">Open full-size figure</span></a>
+<figcaption>Train and test class counts from
 output/data/ml_class_balance.json; the local fixture contains 2000 train
 and 500 test examples across 10 classes. Generation method: Grouped
 train/test class-count bars from the local MNIST fixture. Registry
 metadata records the generation method, source artifact, and claim
 boundary for validation.</figcaption>
 </figure>
-<table id="tbl:class-balance">
+<div class="table-scroll" role="region" tabindex="0" aria-label="Scrollable table: Local fixture class-balance table from output/data/ml_class_balance.json ; counts describe the offline fixture used b…"><table id="tbl:class-balance" data-responsive-table="true">
 <caption>Local fixture class-balance table from
 <code>output/data/ml_class_balance.json</code>; counts describe the
 offline fixture used by this run.</caption>
@@ -343,11 +755,11 @@ offline fixture used by this run.</caption>
 <td>10.0%</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <figure id="fig:mnist_subset_contact_sheet">
-<img src="../figures/mnist_subset_contact_sheet.png"
-alt="Deterministic class-balanced contact sheet for MNIST handwritten digit database from data/mnist_small.npz and data/mnist_small_provenance.json; the figure documents the local subset used by the offline run. Generation method: Class-balanced contact sheet from fixed local MNIST arrays. Registry metadata records the generation method, source artifact, and claim boundary for validation." />
-<figcaption aria-hidden="true">Deterministic class-balanced contact
+<a class="figure-full-size-link" href="figures/mnist_subset_contact_sheet.png" target="_blank" rel="noopener" aria-label="Open full-size figure, Deterministic class-balanced contact sheet"><img src="figures/mnist_subset_contact_sheet.png"
+alt="Two-row grid with one local handwritten digit example for each class zero through nine." /><span class="figure-full-size-label" aria-hidden="true">Open full-size figure</span></a>
+<figcaption>Deterministic class-balanced contact
 sheet for MNIST handwritten digit database from data/mnist_small.npz and
 data/mnist_small_provenance.json; the figure documents the local subset
 used by the offline run. Generation method: Class-balanced contact sheet
@@ -371,7 +783,14 @@ questions.</li>
 <li>Build an <code>AutoResearchPlan</code> from the domain profile,
 experiment plan, and pipeline DAG.</li>
 <li>Validate exact stage-gate names declared in
-<code>autoresearch.yaml</code>.</li>
+<code>autoresearch.yaml</code>: an entry Validation rejects unknown
+stage names — misspelling a gate name halts configuration before any
+phase executes. naming a stage absent from <code>pipeline.yaml</code> is
+a validation error (<code>AUTORESEARCH.STAGE_UNKNOWN</code>), never
+silently skipped. The claim substance gate has negative controls in
+<code>tests/test_gate_negative_controls.py</code>, which feeds missing,
+hollow, and garbage evidence artifacts and asserts each claim is
+rejected.</li>
 <li>Evaluate the configured <code>MNIST</code> candidate set up to the
 configured iteration budget.</li>
 <li>Generate claims only from configured questions and local artifact
@@ -458,9 +877,9 @@ data-cites="fig:autoresearch_security_control_matrix">@fig:autoresearch_security
 The table and figure are generated from the threat model and inventory,
 not manually maintained.</p>
 <figure id="fig:autoresearch_security_control_matrix">
-<img src="../figures/autoresearch_security_control_matrix.png"
-alt="Local security-control matrix from output/data/autoresearch_threat_model.json; controls map NIST, SLSA, and ATT&amp;CK-inspired safeguards to deterministic evidence surfaces without claiming production security certification. Generation method: structured control matrix with separate control, evidence, framework, and status columns. Generation method: Structured control matrix from local threat-model controls. Registry metadata records the generation method, source artifact, and claim boundary for validation." />
-<figcaption aria-hidden="true">Local security-control matrix from
+<a class="figure-full-size-link" href="figures/autoresearch_security_control_matrix.png" target="_blank" rel="noopener" aria-label="Open full-size figure, Local security-control matrix from output/data/autoresearch_threat_model.json"><img src="figures/autoresearch_security_control_matrix.png"
+alt="Matrix of local security controls mapped to framework-inspired evidence surfaces and status." /><span class="figure-full-size-label" aria-hidden="true">Open full-size figure</span></a>
+<figcaption>Local security-control matrix from
 output/data/autoresearch_threat_model.json; controls map NIST, SLSA, and
 ATT&amp;CK-inspired safeguards to deterministic evidence surfaces
 without claiming production security certification. Generation method:
@@ -469,7 +888,7 @@ and status columns. Generation method: Structured control matrix from
 local threat-model controls. Registry metadata records the generation
 method, source artifact, and claim boundary for validation.</figcaption>
 </figure>
-<table id="tbl:security-artifacts">
+<div class="table-scroll" role="region" tabindex="0" aria-label="Scrollable table: Local security artifacts generated for the bounded AutoResearch run."><table id="tbl:security-artifacts" data-responsive-table="true">
 <caption>Local security artifacts generated for the bounded AutoResearch
 run.</caption>
 <colgroup>
@@ -487,43 +906,43 @@ run.</caption>
 <tbody>
 <tr>
 <td>profile</td>
-<td><a href="../data/autoresearch_security_profile.json">security
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/autoresearch_security_profile.json">security
 profile</a></td>
 <td>local_deterministic</td>
 </tr>
 <tr>
 <td>threat model</td>
-<td><a href="../data/autoresearch_threat_model.json">threat
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/autoresearch_threat_model.json">threat
 model</a></td>
 <td>default_offline</td>
 </tr>
 <tr>
 <td>inventory</td>
-<td><a href="../data/autoresearch_supply_chain_inventory.json">supply
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/autoresearch_supply_chain_inventory.json">supply
 inventory</a></td>
 <td>14 inputs</td>
 </tr>
 <tr>
 <td>inventory export</td>
-<td><a href="../data/autoresearch_inventory_export.json">inventory
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/autoresearch_inventory_export.json">inventory
 export</a></td>
 <td>local non-SBOM export</td>
 </tr>
 <tr>
 <td>attestation</td>
-<td><a href="../data/autoresearch_integrity_attestation.json">integrity
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/autoresearch_integrity_attestation.json">integrity
 attestation</a></td>
 <td>passed</td>
 </tr>
 <tr>
 <td>review</td>
-<td><a href="../reports/autoresearch_security_review.md">security
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/reports/autoresearch_security_review.md">security
 review</a></td>
 <td>human review input</td>
 </tr>
 </tbody>
-</table>
-<table id="tbl:security-threat-model">
+</table></div>
+<div class="table-scroll" role="region" tabindex="0" aria-label="Scrollable table: Threat-model rows from output/data/autoresearch_threat_model.json ; ATT&amp;CK labels scope supply-chain compromise analo…"><table id="tbl:security-threat-model" data-responsive-table="true">
 <caption>Threat-model rows from
 <code>output/data/autoresearch_threat_model.json</code>; ATT&amp;CK
 labels scope supply-chain compromise analogies.</caption>
@@ -601,7 +1020,7 @@ generated…</td>
 <td>The exemplar does not sign build logs or isolate runners.</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <h2 id="sec:positioning-autonomous-science">Positioning Against
 Autonomous Science Systems</h2>
 <p>The implementation should be read as a bounded local analogue of
@@ -633,7 +1052,7 @@ self-modifying code search, or self-approval of publication claims.</p>
 <code>output/reports/ml_benchmark_score.json</code>,
 <code>output/data/benchmark_boundary.json</code>,
 <code>output/data/figure_quality_report.json</code>, and registered
-figures through <code>../figures/figure_registry.json</code>. The
+figures through <code>figures/figure_registry.json</code>. The
 diagnostic payloads preserve probabilities, confidence and margin
 summaries, class metrics, calibration bins, confusion-pair summaries,
 train/test gaps, deterministic no-retrain perturbation scores, bootstrap
@@ -669,9 +1088,9 @@ validated artifact base.</p>
 visualization: source artifact, generated file, rendering method, and
 claim boundary. The rendered method table below is generated from that
 registry rather than maintained manually.</p>
-<table id="tbl:figure-methods">
+<div class="table-scroll" role="region" tabindex="0" aria-label="Scrollable table: Registry-backed figure methods from figure_registry.json ; full validation hooks, alt text, and claim boundaries rema…"><table id="tbl:figure-methods" data-responsive-table="true">
 <caption>Registry-backed figure methods from <a
-href="../figures/figure_registry.json"><code>figure_registry.json</code></a>;
+href="figures/figure_registry.json"><code>figure_registry.json</code></a>;
 full validation hooks, alt text, and claim boundaries remain in the
 registry.</caption>
 <colgroup>
@@ -692,7 +1111,7 @@ registry.</caption>
 <tr>
 <td><span class="citation"
 data-cites="fig:autoresearch_candidate_lifecycle">@fig:autoresearch_candidate_lifecycle</span></td>
-<td><a href="../data/ml_candidate_ledger.json">candidate ledger</a></td>
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_candidate_ledger.json">candidate ledger</a></td>
 <td>Candidate lifecycle status-count bar chart.</td>
 <td>Lifecycle counts describe bounded orchestration, not autonomous
 approval.</td>
@@ -700,7 +1119,7 @@ approval.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:autoresearch_closure_flow">@fig:autoresearch_closure_flow</span></td>
-<td><a href="../data/autoresearch_loop.json">loop</a></td>
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/autoresearch_loop.json">loop</a></td>
 <td>File-backed process-flow diagram from final loop state.</td>
 <td>The workflow is file-backed and inspectable but not
 self-approving.</td>
@@ -708,7 +1127,7 @@ self-approving.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:autoresearch_integrity_chain">@fig:autoresearch_integrity_chain</span></td>
-<td><a href="../data/autoresearch_integrity_attestation.json">integrity
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/autoresearch_integrity_attestation.json">integrity
 attestation</a></td>
 <td>Local checksum attestation chain with checked, missing, and mismatch
 counts.</td>
@@ -718,7 +1137,7 @@ externally signed provenance.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:autoresearch_security_control_matrix">@fig:autoresearch_security_control_matrix</span></td>
-<td><a href="../data/autoresearch_threat_model.json">threat
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/autoresearch_threat_model.json">threat
 model</a></td>
 <td>Structured control matrix from local threat-model controls.</td>
 <td>Controls are local research-artifact safeguards, not production
@@ -727,7 +1146,7 @@ security certification.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:autoresearch_stage_matrix">@fig:autoresearch_stage_matrix</span></td>
-<td><a href="../data/autoresearch_loop.json">loop</a></td>
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/autoresearch_loop.json">loop</a></td>
 <td>Horizontal count summary from final loop metrics.</td>
 <td>Readiness artifacts summarize local validation only; publication
 approval is human.</td>
@@ -735,7 +1154,7 @@ approval is human.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_bootstrap_intervals">@fig:ml_bootstrap_intervals</span></td>
-<td><a href="../data/ml_bootstrap_intervals.json">bootstrap
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_bootstrap_intervals.json">bootstrap
 intervals</a></td>
 <td>Horizontal percentile-bootstrap interval plot.</td>
 <td>Bootstrap intervals summarize local test-set resampling only.</td>
@@ -743,7 +1162,7 @@ intervals</a></td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_calibration_reliability">@fig:ml_calibration_reliability</span></td>
-<td><a href="../data/ml_calibration_report.json">calibration
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_calibration_report.json">calibration
 report</a></td>
 <td>Reliability curve with confidence-bin support histogram.</td>
 <td>Calibration values describe the fixed local split only.</td>
@@ -751,7 +1170,7 @@ report</a></td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_candidate_rank_stability">@fig:ml_candidate_rank_stability</span></td>
-<td><a href="../data/ml_candidate_rank_stability.json">candidate rank
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_candidate_rank_stability.json">candidate rank
 stability</a></td>
 <td>Bootstrap top-rank frequency and mean-rank comparison.</td>
 <td>Rank stability describes local resampling behavior, not
@@ -760,7 +1179,7 @@ model-selection certainty.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_candidate_scores">@fig:ml_candidate_scores</span></td>
-<td><a href="../data/ml_candidate_intervals.json">candidate
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_candidate_intervals.json">candidate
 intervals</a></td>
 <td>Lollipop accuracy comparison with Wilson interval error bars and
 direct labels.</td>
@@ -770,7 +1189,7 @@ candidates.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_classification_metrics_heatmap">@fig:ml_classification_metrics_heatmap</span></td>
-<td><a href="../data/ml_classification_diagnostics.json">class
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_classification_diagnostics.json">class
 diagnostics</a></td>
 <td>Per-class precision, recall, and F1 heatmap.</td>
 <td>Class metrics diagnose this run only and are not full-dataset
@@ -779,7 +1198,7 @@ estimates.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_complexity_accuracy">@fig:ml_complexity_accuracy</span></td>
-<td><a href="../data/ml_task_results.json">task results</a></td>
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_task_results.json">task results</a></td>
 <td>Log-parameter scatter plot against held-out accuracy.</td>
 <td>The plot compares this bounded candidate set and does not infer a
 scaling law.</td>
@@ -787,7 +1206,7 @@ scaling law.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_confusion_matrix">@fig:ml_confusion_matrix</span></td>
-<td><a href="../data/ml_confusion_matrix.csv">confusion matrix</a></td>
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_confusion_matrix.csv">confusion matrix</a></td>
 <td>Row-normalized heatmap with cell counts and row percentages.</td>
 <td>Confusion counts diagnose this run only and do not imply
 full-dataset generalization.</td>
@@ -795,7 +1214,7 @@ full-dataset generalization.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_confusion_pairs">@fig:ml_confusion_pairs</span></td>
-<td><a href="../data/ml_classification_diagnostics.json">class
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_classification_diagnostics.json">class
 diagnostics</a></td>
 <td>Ranked off-diagonal confusion-pair bars with true-class error
 rates.</td>
@@ -805,7 +1224,7 @@ taxonomy.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_generalization_gap">@fig:ml_generalization_gap</span></td>
-<td><a href="../data/ml_classification_diagnostics.json">class
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_classification_diagnostics.json">class
 diagnostics</a></td>
 <td>Grouped train/test accuracy and loss bars by evaluated
 candidate.</td>
@@ -815,7 +1234,7 @@ guarantees.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_learning_curves">@fig:ml_learning_curves</span></td>
-<td><a href="../data/ml_training_history.csv">training history</a></td>
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_training_history.csv">training history</a></td>
 <td>Epoch-level held-out accuracy lines with accepted best-epoch
 marker.</td>
 <td>Learning curves diagnose configured training only, not convergence
@@ -824,7 +1243,7 @@ in general.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_paired_correctness">@fig:ml_paired_correctness</span></td>
-<td><a href="../data/ml_paired_comparison.json">paired
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_paired_comparison.json">paired
 comparison</a></td>
 <td>Matched accepted-versus-baseline correctness heatmap.</td>
 <td>Matched comparison is limited to the fixed local test split.</td>
@@ -832,7 +1251,7 @@ comparison</a></td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_per_class_accuracy">@fig:ml_per_class_accuracy</span></td>
-<td><a href="../data/ml_confusion_matrix.csv">confusion matrix</a></td>
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_confusion_matrix.csv">confusion matrix</a></td>
 <td>Per-class accuracy bars computed from the confusion matrix
 diagonal.</td>
 <td>Per-class values diagnose this local split only and do not certify
@@ -841,7 +1260,7 @@ robustness.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_probability_margin_distribution">@fig:ml_probability_margin_distribution</span></td>
-<td><a href="../data/ml_probability_diagnostics.json">probability
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_probability_diagnostics.json">probability
 diagnostics</a></td>
 <td>Confidence and margin histograms split by correctness.</td>
 <td>Distributions are descriptive diagnostics for the fixed local test
@@ -850,7 +1269,7 @@ split.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_probability_quality">@fig:ml_probability_quality</span></td>
-<td><a href="../data/ml_statistical_summary.json">statistical
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_statistical_summary.json">statistical
 summary</a></td>
 <td>Brier score and negative-log-likelihood bar comparison.</td>
 <td>Probability-quality metrics compare the configured evaluated
@@ -859,7 +1278,7 @@ candidates only.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_robustness_matrix">@fig:ml_robustness_matrix</span></td>
-<td><a href="../data/ml_robustness_report.json">robustness
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_robustness_report.json">robustness
 report</a></td>
 <td>Candidate-by-transform accuracy heatmap for deterministic
 perturbations.</td>
@@ -869,7 +1288,7 @@ robustness.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_selective_accuracy">@fig:ml_selective_accuracy</span></td>
-<td><a href="../data/ml_statistical_summary.json">statistical
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_statistical_summary.json">statistical
 summary</a></td>
 <td>Confidence-threshold coverage and selective-accuracy line
 chart.</td>
@@ -879,7 +1298,7 @@ local split only.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:ml_training_dynamics">@fig:ml_training_dynamics</span></td>
-<td><a href="../data/ml_training_diagnostics.json">training
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_training_diagnostics.json">training
 diagnostics</a></td>
 <td>Final and best-epoch accuracy bars plus train-test gap bars.</td>
 <td>Training dynamics diagnose this configured deterministic run
@@ -888,7 +1307,7 @@ only.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:mnist_class_balance">@fig:mnist_class_balance</span></td>
-<td><a href="../data/ml_class_balance.json">class balance</a></td>
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_class_balance.json">class balance</a></td>
 <td>Grouped train/test class-count bars from the local MNIST
 fixture.</td>
 <td>Class counts describe the local fixed fixture and are not population
@@ -897,7 +1316,7 @@ statistics.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:mnist_error_examples">@fig:mnist_error_examples</span></td>
-<td><a href="../data/ml_error_examples.json">error examples</a></td>
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/output/data/ml_error_examples.json">error examples</a></td>
 <td>Deterministic grid of the first accepted-candidate
 misclassifications.</td>
 <td>Examples are qualitative diagnostics for this run, not an error
@@ -906,12 +1325,13 @@ taxonomy.</td>
 <tr>
 <td><span class="citation"
 data-cites="fig:mnist_subset_contact_sheet">@fig:mnist_subset_contact_sheet</span></td>
-<td><a href="../../data/mnist_small.npz">small</a></td>
+<td><a href="https://github.com/docxology/template/blob/main/projects/templates/template_autoresearch_project/data/mnist_small.npz">small</a></td>
 <td>Class-balanced contact sheet from fixed local MNIST arrays.</td>
 <td>The sheet illustrates the local fixed subset and is not a
 statistical sample claim.</td>
 </tr>
 </tbody>
-</table>
+</table></div>
+</main>
 </body>
 </html>
