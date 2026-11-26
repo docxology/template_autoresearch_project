@@ -28,4 +28,4 @@ written during loop hydration.
 - Source ledger: `scripts/check_source_ledger.py` and `tests/test_source_ledger.py`
 - Token coverage: `tests/test_manuscript_variables.py`
 - Tables vs ledgers: `tests/test_manuscript_tables.py`
-- Prerender: `uv run python -m infrastructure.validation.cli prerender manuscript --repo-root ../../..`
+- Render and validate with the [pinned runbook](../runbook.md).

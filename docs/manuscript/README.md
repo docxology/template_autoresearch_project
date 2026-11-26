@@ -11,3 +11,10 @@ current-trends survey section. It uses schema
 shape, HTTPS canonical URLs, non-future ISO dates, allowed source tiers,
 BibTeX coverage, and numbered manuscript citation coverage without making
 network calls.
+
+## Read the manuscript
+
+- [Abstract](00_abstract.md) and [introduction](01_introduction.md)
+- [Methodology](02_methodology.md), [results](03_results.md), and [conclusion](04_conclusion.md)
+- [References](99_references.md), [bibliography](references.bib), and [source ledger](source_ledger.yaml)
+- [Configuration](config.yaml) and [runbook](../runbook.md)

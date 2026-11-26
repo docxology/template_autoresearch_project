@@ -48,7 +48,7 @@ def test_research_object_manifest_records_local_boundaries(
     assert payload["project_name"] == "template_autoresearch_project"
     assert payload["artifact_count"] > 0
     assert payload["approval_state"]["publication_approved"] is False
-    assert payload["source_ledger"]["path"] == "manuscript/source_ledger.yaml"
+    assert payload["source_ledger"]["path"] == "docs/manuscript/source_ledger.yaml"
     assert payload["schema_manifest"]["path"] == "output/data/autoresearch_schema_manifest.json"
     assert any(row["path"] == "output/data/autoresearch_phase_ledger.json" for row in payload["artifacts"])
     assert any(row["path"] == "output/data/figure_quality_report.json" for row in payload["artifacts"])

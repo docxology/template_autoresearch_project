@@ -6,7 +6,7 @@ from collections import Counter
 from typing import Any
 
 from src.json_coerce import mapping, mapping_list
-from .manuscript_tables_format import artifact_markdown_link, markdown_table, pdf_small_table
+from .manuscript_tables_format import artifact_reference, markdown_table, pdf_small_table
 from .manuscript_tokens_format import (
     artifact_role,
     candidate_display_label,
@@ -60,7 +60,7 @@ def figure_method_table(registry: dict[str, Any]) -> str:
         rows.append(
             (
                 f"@{string_value(label)}",
-                artifact_markdown_link(string_value(metadata.get("source", "N/A"))),
+                artifact_reference(string_value(metadata.get("source", "N/A"))),
                 short_scope(string_value(metadata.get("method", "N/A")), limit=84),
                 short_scope(string_value(metadata.get("claim_boundary", "N/A"))),
             )
@@ -68,7 +68,7 @@ def figure_method_table(registry: dict[str, Any]) -> str:
     return pdf_small_table(
         ("Figure", "Source", "Method", "Scope"),
         rows,
-        "Registry-backed figure methods from [`figure_registry.json`](../figures/figure_registry.json); full validation hooks, alt text, and claim boundaries remain in the registry. {#tbl:figure-methods}",
+        "Registry-backed figure methods from `figure_registry.json`; full validation hooks, alt text, and claim boundaries remain in the registry. {#tbl:figure-methods}",
     )
 
 
@@ -446,7 +446,7 @@ def diagnostic_boundary_table(diagnostic_boundary: dict[str, Any]) -> str:
     rows = [
         (
             string_value(row.get("surface", "N/A")).replace("_", " "),
-            artifact_markdown_link(string_value(row.get("source_artifact", "N/A"))),
+            artifact_reference(string_value(row.get("source_artifact", "N/A"))),
             short_scope(string_value(row.get("method", "N/A")), limit=80),
             short_scope(string_value(row.get("supports", "N/A")), limit=80),
             short_scope(string_value(row.get("does_not_support", "N/A")), limit=80),
@@ -508,32 +508,32 @@ def security_artifact_table(
     rows = [
         (
             "profile",
-            artifact_markdown_link("output/data/autoresearch_security_profile.json"),
+            artifact_reference("output/data/autoresearch_security_profile.json"),
             string_value(security_profile.get("mode", "N/A")),
         ),
         (
             "threat model",
-            artifact_markdown_link("output/data/autoresearch_threat_model.json"),
+            artifact_reference("output/data/autoresearch_threat_model.json"),
             string_value(security_profile.get("network_policy", "N/A")),
         ),
         (
             "inventory",
-            artifact_markdown_link("output/data/autoresearch_supply_chain_inventory.json"),
+            artifact_reference("output/data/autoresearch_supply_chain_inventory.json"),
             f"{len(mapping_list(security_inventory.get('inputs')))} inputs",
         ),
         (
             "inventory export",
-            artifact_markdown_link("output/data/autoresearch_inventory_export.json"),
+            artifact_reference("output/data/autoresearch_inventory_export.json"),
             "local non-SBOM export",
         ),
         (
             "attestation",
-            artifact_markdown_link("output/data/autoresearch_integrity_attestation.json"),
+            artifact_reference("output/data/autoresearch_integrity_attestation.json"),
             string_value(security_attestation.get("status", "N/A")),
         ),
         (
             "review",
-            artifact_markdown_link("output/reports/autoresearch_security_review.md"),
+            artifact_reference("output/reports/autoresearch_security_review.md"),
             "human review input",
         ),
     ]

@@ -6,6 +6,13 @@ from src.artifact_loader import LoopArtifacts
 from src.manuscript.manuscript_tables import build_table_specs, variable_provenance_table
 
 
+def test_table_evidence_cites_the_artifact_without_a_worktree_link() -> None:
+    from src.manuscript.manuscript_tables_format import artifact_reference
+
+    assert artifact_reference("output/data/ml_task_results.json") == "`ml_task_results.json`"
+    assert artifact_reference("") == "N/A"
+
+
 def test_build_table_specs_generates_compact_registry_and_diagnostic_tables() -> None:
     registry = {
         "fig:ml_candidate_scores": {
@@ -281,7 +288,7 @@ def test_build_table_specs_generates_compact_registry_and_diagnostic_tables() ->
 
     assert set(tables) >= {"FIGURE_METHOD_TABLE", "CANDIDATE_SELECTION_AUDIT_TABLE", "SECURITY_THREAT_MODEL_TABLE"}
     assert "@fig:ml_candidate_scores" in tables["FIGURE_METHOD_TABLE"][0]
-    assert "[candidate intervals](../data/ml_candidate_intervals.json)" in tables["FIGURE_METHOD_TABLE"][0]
+    assert "`ml_candidate_intervals.json`" in tables["FIGURE_METHOD_TABLE"][0]
     assert "mlp tanh 64" in tables["ML_CANDIDATE_LEDGER_TABLE"][0]
     assert "macro F1" in tables["BOOTSTRAP_INTERVAL_TABLE"][0]
     assert "objective selection" in tables["DIAGNOSTIC_BOUNDARY_TABLE"][0]

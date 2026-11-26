@@ -17,7 +17,7 @@ from src.source_ledger import (
 
 
 def test_source_ledger_loads_current_survey_sources(project_root: Path) -> None:
-    entries = load_source_ledger(project_root / "manuscript" / "source_ledger.yaml")
+    entries = load_source_ledger(project_root / "docs" / "manuscript" / "source_ledger.yaml")
 
     assert len(entries) == 23
     assert "baulin_discovery_engine_2025" in {entry.citekey for entry in entries}
@@ -28,7 +28,7 @@ def test_source_ledger_loads_current_survey_sources(project_root: Path) -> None:
 
 
 def test_source_ledger_citekeys_are_stable(project_root: Path) -> None:
-    citekeys = source_ledger_citekeys(project_root / "manuscript" / "source_ledger.yaml")
+    citekeys = source_ledger_citekeys(project_root / "docs" / "manuscript" / "source_ledger.yaml")
 
     assert citekeys[0] == "baulin_discovery_engine_2025"
     assert len(citekeys) == len(set(citekeys))

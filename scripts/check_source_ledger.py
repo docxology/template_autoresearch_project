@@ -10,6 +10,7 @@ from _bootstrap import ensure_project_paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 ensure_project_paths(PROJECT_ROOT)
 
+from infrastructure.core.project_paths import resolve_source_manuscript_dir  # noqa: E402
 from src.source_ledger import (  # noqa: E402
     load_source_ledger,
     source_age_summary,
@@ -20,7 +21,7 @@ from src.source_ledger import (  # noqa: E402
 
 def main() -> int:
     """Validate the manuscript source ledger and print tier counts."""
-    entries = load_source_ledger(PROJECT_ROOT / "manuscript" / "source_ledger.yaml")
+    entries = load_source_ledger(resolve_source_manuscript_dir(PROJECT_ROOT) / "source_ledger.yaml")
     print(f"source ledger entries: {len(entries)}")
     for tier, count in sorted(source_tier_counts(entries).items()):
         print(f"{tier}: {count}")

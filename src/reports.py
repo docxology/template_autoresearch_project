@@ -7,6 +7,8 @@ import io
 import json
 from pathlib import Path
 
+from infrastructure.core.project_paths import resolve_source_manuscript_dir
+
 from .ml.task import MLTaskResult
 from .models import AutoResearchLoopResult
 from .source_ledger import (
@@ -208,13 +210,13 @@ def build_evidence_overview(project_root: Path, result: AutoResearchLoopResult) 
     packet = build_review_packet(result)
     human_review = packet["human_review"]
     assert isinstance(human_review, dict)
-    ledger_path = project_root / "manuscript" / "source_ledger.yaml"
+    ledger_path = resolve_source_manuscript_dir(project_root) / "source_ledger.yaml"
     if ledger_path.is_file():
         entries = load_source_ledger(ledger_path)
         ledger_issues = validate_source_ledger_contract(project_root)
     else:
         entries = ()
-        ledger_issues = ["missing manuscript/source_ledger.yaml"]
+        ledger_issues = [f"missing {ledger_path.relative_to(project_root).as_posix()}"]
     benchmark_boundary_path = project_root / "output" / "data" / "benchmark_boundary.json"
     benchmark_boundary = _load_json(benchmark_boundary_path)
     benchmark_boundary_issues = _benchmark_boundary_issues(benchmark_boundary_path, benchmark_boundary)
@@ -245,7 +247,7 @@ def build_evidence_overview(project_root: Path, result: AutoResearchLoopResult) 
             for claim in result.claims
         ],
         "source_ledger": {
-            "path": "manuscript/source_ledger.yaml",
+            "path": ledger_path.relative_to(project_root).as_posix(),
             "entry_count": len(entries),
             "tier_counts": source_tier_counts(entries),
             "checked_age_buckets": source_age_summary(entries),

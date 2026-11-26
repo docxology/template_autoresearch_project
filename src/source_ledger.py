@@ -10,6 +10,8 @@ from typing import Any
 
 import yaml
 
+from infrastructure.core.project_paths import resolve_source_manuscript_dir
+
 SOURCE_LEDGER_SCHEMA = "template-autoresearch-source-ledger-v1"
 ALLOWED_SOURCE_TIERS = frozenset(
     {
@@ -96,14 +98,15 @@ def source_age_summary(entries: tuple[SourceLedgerEntry, ...], *, today: date | 
 def validate_source_ledger_contract(project_root: Path, *, today: date | None = None) -> list[str]:
     """Validate the project-local source ledger against offline manuscript evidence."""
     root = project_root.resolve()
-    ledger_path = root / "manuscript" / "source_ledger.yaml"
+    manuscript_dir = resolve_source_manuscript_dir(root)
+    ledger_path = manuscript_dir / "source_ledger.yaml"
     try:
         entries = load_source_ledger(ledger_path, today=today)
     except ValueError as exc:
         return [str(exc)]
     ledger_keys = {entry.citekey for entry in entries}
-    bib_keys = _bibtex_citekeys(root / "manuscript" / "references.bib")
-    manuscript_keys = _manuscript_citekeys(root / "manuscript")
+    bib_keys = _bibtex_citekeys(manuscript_dir / "references.bib")
+    manuscript_keys = _manuscript_citekeys(manuscript_dir)
     issues: list[str] = []
     missing_bib = sorted(ledger_keys - bib_keys)
     if missing_bib:

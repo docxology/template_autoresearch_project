@@ -35,33 +35,6 @@ def pdf_small_table(headers: Sequence[str], rows: Sequence[Sequence[str]], capti
     return "\n".join(("\\begingroup\\footnotesize", "", table, "", "\\endgroup"))
 
 
-def artifact_link_label(path: str) -> str:
-    """Process artifact link label."""
-    if path in {"", "N/A"}:
-        return "N/A"
-    stem = Path(path).stem
-    for prefix in ("autoresearch_", "ml_", "mnist_"):
-        stem = stem.removeprefix(prefix)
-    labels = {
-        "integrity_attestation": "integrity attestation",
-        "security_profile": "security profile",
-        "supply_chain_inventory": "supply inventory",
-        "threat_model": "threat model",
-        "candidate_intervals": "candidate intervals",
-        "classification_diagnostics": "class diagnostics",
-        "statistical_summary": "statistical summary",
-        "probability_diagnostics": "probability diagnostics",
-    }
-    return labels.get(stem, stem.replace("_", " "))
-
-
-def artifact_markdown_link(path: str) -> str:
-    """Process artifact markdown link."""
-    label = artifact_link_label(path)
-    if path.startswith("output/"):
-        target = "../" + path.removeprefix("output/")
-    elif path.startswith("data/"):
-        target = "../../" + path
-    else:
-        target = path
-    return f"[{label}]({target})"
+def artifact_reference(path: str) -> str:
+    """Cite an artifact without linking the rendered web page to a local worktree."""
+    return "N/A" if path in {"", "N/A"} else f"`{Path(path).name}`"

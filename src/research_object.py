@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from infrastructure.core.pipeline.artifacts import compute_sha256
+from infrastructure.core.project_paths import resolve_source_manuscript_dir
 
 RESEARCH_OBJECT_SCHEMA = "template-autoresearch-research-object-manifest-v1"
 
@@ -20,6 +21,7 @@ def research_object_manifest_payload(
     """Return a local research-object manifest without claiming an external standard."""
     review_decisions = _load_json_mapping(project_root / "output" / "data" / "review_decisions.json")
     artifacts = [_file_record(project_root, path) for path in _existing_project_paths(project_root, paths)]
+    source_ledger = resolve_source_manuscript_dir(project_root) / "source_ledger.yaml"
     return {
         "schema": RESEARCH_OBJECT_SCHEMA,
         "generated_at": generated_at,
@@ -33,7 +35,10 @@ def research_object_manifest_payload(
             _expected_file_record(project_root, "output/manuscript/00_abstract.md"),
         ],
         "evidence_registry": _expected_file_record(project_root, "output/reports/evidence_registry.json"),
-        "source_ledger": _expected_file_record(project_root, "manuscript/source_ledger.yaml"),
+        "source_ledger": _expected_file_record(
+            project_root,
+            source_ledger.relative_to(project_root).as_posix(),
+        ),
         "schema_manifest": _expected_file_record(project_root, "output/data/autoresearch_schema_manifest.json"),
         "approval_state": {
             "publication_approved": bool(review_decisions.get("publication_approved", False)),

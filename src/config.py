@@ -19,6 +19,7 @@ from infrastructure.autoresearch import (
     SecurityProfile,
     parse_string_sequence,
 )
+from infrastructure.core.project_paths import resolve_source_manuscript_dir
 
 HUMAN_REVIEW_SCHEMA = "template-autoresearch-human-review-v1"
 HUMAN_REVIEW_DECISIONS = frozenset({"approved", "deferred", "rejected"})
@@ -125,10 +126,11 @@ class AutoResearchLoopConfig:
 
 def load_manuscript_loop_settings(project_root: Path) -> ManuscriptLoopSettings:
     """Load loop stage and question settings from manuscript config."""
-    manuscript_config = _load_yaml(project_root / "manuscript" / "config.yaml")
+    config_path = resolve_source_manuscript_dir(project_root) / "config.yaml"
+    manuscript_config = _load_yaml(config_path)
     project_config = manuscript_config.get("project_config", {})
     if not isinstance(project_config, dict):
-        raise ValueError("manuscript/config.yaml project_config must be a mapping")
+        raise ValueError(f"{config_path.relative_to(project_root)} project_config must be a mapping")
 
     questions = _parse_questions(project_config.get("research_questions", []))
     loop_stages = parse_string_sequence(

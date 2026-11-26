@@ -8,9 +8,9 @@ budget:
   max_llm_calls: 0
   max_cost_usd: 0.0
 edit_allowlist:
-  - projects/templates/template_autoresearch_project/mnist_task.yaml
-  - projects/templates/template_autoresearch_project/src/
-  - projects/templates/template_autoresearch_project/manuscript/
+  - mnist_task.yaml
+  - src/
+  - docs/manuscript/
 metric_direction: maximize
 grading:
   # Knobs for the readiness-benchmark auto-grade (consumed by src/writers._load_grading_settings).
@@ -57,7 +57,7 @@ review_gates:
     required: true
 source_manifests:
   - output/reports/evidence_registry.json
-  - manuscript/source_ledger.yaml
+  - docs/manuscript/source_ledger.yaml
 benchmark_tasks:
   - id: readiness-smoke
     description: "Confirm the deterministic AutoResearch loop emits graded readiness artifacts."
