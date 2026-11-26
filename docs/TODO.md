@@ -1,7 +1,7 @@
 # AutoResearch Project TODO
 
 This backlog is future-only. Completed validation and dated review evidence are preserved in
-[`docs/maintenance/exemplar-backlog-history.md`](../../../docs/maintenance/exemplar-backlog-history.md)
+[`docs/maintenance/exemplar-backlog-history.md`](https://github.com/docxology/template/blob/87704feae0a4490ef7dad9c931d268e8c30273c2/docs/maintenance/exemplar-backlog-history.md)
 or in source-owned generated receipts. Each active row must retain a stable ID, size, dependency,
 next action, proving artifact, acceptance command, and negative control; absence of an owner or external receipt
 keeps a capability blocked rather than silently promoting it.
@@ -31,7 +31,7 @@ git history for how they were established.
 | --- | --- | --- |
 | Manual approval | `human_review.yaml` is the human-authored approval source; generated files can report readiness but cannot self-approve publication | default `publication_approved: false`; generated code must not mutate the human review file |
 | Review readiness | `autoresearch_review_packet.json` and `review_decisions.json` distinguish review readiness from publication approval | validators fail on generated self-approval |
-| Source ledger | `manuscript/source_ledger.yaml` is parsed through reusable project helpers and checked offline | citekeys stay present in ledger, BibTeX, and numbered manuscript prose |
+| Source ledger | `docs/manuscript/source_ledger.yaml` is parsed through reusable project helpers and checked offline | citekeys stay present in ledger, BibTeX, and numbered manuscript prose |
 | ML loop | bounded deterministic ML execution records baseline, candidate selection, metric improvement, and budget evidence | no runtime downloads, no generated-code execution, no network calls |
 | Evidence reports | compact evidence registry, phase ledger, figure-quality report, rank stability, and calibration diagnostics are generated from shared data | report-size guard remains in place unless explicitly enabled |
 | Evidence overview | `autoresearch_evidence_overview.json` and `.md` summarize readiness versus approval, claim evidence rows, source-ledger tier/age status, benchmark boundaries, and security/integrity status | overview must keep generated readiness separate from human publication approval |
@@ -60,9 +60,9 @@ contract.
 
 ## Configurable-surface gaps
 
-New configurable behavior belongs in `manuscript/config.yaml`, the loop
+New configurable behavior belongs in `docs/manuscript/config.yaml`, the loop
 configuration helpers, source ledgers, review-boundary files, or explicit task
-adapters. Keep `manuscript/config.yaml.example` in top-level parity and scrubbed
+adapters. Keep `docs/manuscript/config.yaml.example` in top-level parity and scrubbed
 of project-specific release values whenever config sections change.
 
 ## Documentation and signposting gaps

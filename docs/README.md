@@ -1,38 +1,12 @@
-# template_autoresearch_project Docs
+# AutoResearch exemplar documentation
 
-This folder documents the public AutoResearch exemplar project. The project is
-designed to run through the standard template pipeline while keeping the
-AutoResearch loop deterministic, configurable, offline, and human-reviewed. It
-demonstrates a local MNIST subset, bounded numpy neural-network candidate
-evaluation, evidence-linked accepted ideas, review gates, benchmark-style
-grading, phase-settlement ledgers, explicit metric/noise/confidence disclosure,
-figure-quality checks, local security
-integrity artifacts, and explicit disclosure while deferring autonomous
-generated-code execution, runtime dataset downloads, and external signing.
-The generated evidence-registry report is compact by default; the full fact
-dump is an opt-in local debug artifact via `TEMPLATE_EVIDENCE_REGISTRY_FULL=1`.
+The exemplar runs a bounded digit-classification experiment on a checked-in MNIST subset. It records candidate selection, diagnostics, and artifact-backed claims for human review.
 
-Primary command:
-
-```bash
-./run.sh --pipeline --project template_autoresearch_project --mode core --skip-infra
-```
-
-Useful direct checks:
-
-```bash
-uv run python scripts/pipeline/stage_02_analysis.py --project templates/template_autoresearch_project
-uv run python -m infrastructure.autoresearch.cli validate --project templates/template_autoresearch_project --fail-on-issues
-uv run python -m pytest projects/templates/template_autoresearch_project/tests -q
-```
-
-Documentation map:
-
-| File | Purpose |
-| --- | --- |
-| [configuration.md](configuration.md) | Project knobs and how they feed the loop |
-| [outputs.md](outputs.md) | Generated data, reports, and review artifacts |
-| [runbook.md](runbook.md) | End-to-end operation through `run.sh` |
-| [troubleshooting.md](troubleshooting.md) | Symptom → cause → fix triage for readiness, token, ledger, and security failures |
-| [agent_instructions.md](agent_instructions.md) | Operating constraints, workflow, and critical references for agents |
-| [validation-architecture.md](validation-architecture.md) | Veridicality gates: what each binds, hard vs opt-in, negative-control testing |
+- [Runbook](runbook.md) installs the pinned runner and reproduces the tests, analysis, rendering, and validation.
+- [Configuration](configuration.md) explains the task, budget, policy, and publication settings.
+- [Research program](../program.md) defines the human-authored protocol consumed by the loop.
+- [Manuscript](manuscript/README.md) links to the sections, bibliography, and source ledger.
+- [Outputs](outputs.md) maps figures, reports, and provenance to the steps that produce them.
+- [Validation architecture](validation-architecture.md) describes what the readiness checks establish.
+- [Troubleshooting](troubleshooting.md), [fork guide](standalone.md), and [agent instructions](agent_instructions.md) cover maintenance.
+- [Backlog](TODO.md) tracks local work.

@@ -69,7 +69,7 @@ def test_manuscript_variables_cover_all_source_tokens(
     assert autoresearch_loop_result.readiness_valid is True
     variables = compute_variables(project_root)
     tokens = set()
-    for path in (project_root / "manuscript").glob("[0-9][0-9]_*.md"):
+    for path in (project_root / "docs" / "manuscript").glob("[0-9][0-9]_*.md"):
         tokens.update(re.findall(r"\{\{([A-Z0-9_]+)\}\}", path.read_text(encoding="utf-8")))
 
     assert tokens
@@ -161,7 +161,7 @@ def test_manuscript_variables_cover_all_source_tokens(
     assert variables["FIGURE_METHOD_TABLE"].startswith("\\begingroup\\footnotesize")
     assert "| Figure | Source | Method | Scope |" in variables["FIGURE_METHOD_TABLE"]
     assert "@fig:ml_candidate_scores" in variables["FIGURE_METHOD_TABLE"]
-    assert "[candidate intervals](../data/ml_candidate_intervals.json)" in variables["FIGURE_METHOD_TABLE"]
+    assert "`ml_candidate_intervals.json`" in variables["FIGURE_METHOD_TABLE"]
     assert variables["AUTORESEARCH_ARTIFACT_TABLE"].startswith("| Artifact |")
     assert variables["REVIEW_GATE_TABLE"].startswith("| Gate |")
     assert variables["BENCHMARK_SCORE_TABLE"].startswith("| Benchmark task |")
@@ -346,9 +346,9 @@ def test_generated_tables_are_backed_by_ledgers(
 
 
 def test_new_scholarship_citekeys_are_present_and_referenced(project_root: Path) -> None:
-    references = (project_root / "manuscript" / "references.bib").read_text(encoding="utf-8")
+    references = (project_root / "docs" / "manuscript" / "references.bib").read_text(encoding="utf-8")
     manuscript = "\n".join(
-        path.read_text(encoding="utf-8") for path in sorted((project_root / "manuscript").glob("[0-9][0-9]_*.md"))
+        path.read_text(encoding="utf-8") for path in sorted((project_root / "docs" / "manuscript").glob("[0-9][0-9]_*.md"))
     )
     for citekey in {
         "wilkinson2016fair",
@@ -370,11 +370,11 @@ def test_new_scholarship_citekeys_are_present_and_referenced(project_root: Path)
 
 
 def test_survey_source_ledger_covers_current_trend_citations(project_root: Path) -> None:
-    references = (project_root / "manuscript" / "references.bib").read_text(encoding="utf-8")
+    references = (project_root / "docs" / "manuscript" / "references.bib").read_text(encoding="utf-8")
     manuscript = "\n".join(
-        path.read_text(encoding="utf-8") for path in sorted((project_root / "manuscript").glob("[0-9][0-9]_*.md"))
+        path.read_text(encoding="utf-8") for path in sorted((project_root / "docs" / "manuscript").glob("[0-9][0-9]_*.md"))
     )
-    entries = load_source_ledger(project_root / "manuscript" / "source_ledger.yaml")
+    entries = load_source_ledger(project_root / "docs" / "manuscript" / "source_ledger.yaml")
     by_key = {entry.citekey: entry for entry in entries}
     assert set(by_key) == SURVEY_CITEKEYS
     for citekey in SURVEY_CITEKEYS:

@@ -5,51 +5,26 @@ from __future__ import annotations
 from pathlib import Path
 from typing import cast
 
-from infrastructure.core.pipeline.artifacts import ArtifactManifest, ArtifactManifestEntry, compute_sha256
+from infrastructure.core.pipeline.artifacts import (
+    collect_current_artifact_manifest,
+    output_inventory_mode_for_project,
+)
 
 from src.artifact_schemas import schema_manifest_payload
 from src.models import AutoResearchLoopResult
 from src.phase_ledger import write_phase_ledger
 from src.research_object import research_object_manifest_payload
 
-from .constants import ALWAYS_MANIFEST_EXCLUSIONS, VOLATILE_LOOP_STATE_ARTIFACTS
-from .io import relative_path, write_json
+from .io import write_json
 
 
-def write_artifact_manifest(
-    project_root: Path,
-    paths: list[Path],
-    *,
-    exclude_volatile: bool = False,
-) -> Path:
-    """Write the artifact manifest for declared loop outputs."""
-    manifest_path = (project_root / "output" / "reports" / "artifact_manifest.json").resolve()
-    entries = []
-    for index, path in enumerate(
-        sorted(
-            {
-                path.resolve()
-                for path in paths
-                if path.exists()
-                and path.resolve() != manifest_path
-                and relative_path(project_root, path) not in ALWAYS_MANIFEST_EXCLUSIONS
-                and (not exclude_volatile or relative_path(project_root, path) not in VOLATILE_LOOP_STATE_ARTIFACTS)
-            }
-        ),
-        start=1,
-    ):
-        entries.append(
-            ArtifactManifestEntry(
-                path=relative_path(project_root, path),
-                size_bytes=path.stat().st_size,
-                sha256=compute_sha256(path),
-                stage_num=index,
-                stage_name="AutoResearch loop",
-                contract_match=True,
-            )
-        )
-    manifest = ArtifactManifest(entries=tuple(entries), issues=())
-    return write_json(manifest_path, manifest.to_dict())
+def write_artifact_manifest(project_root: Path, repo_root: Path) -> Path:
+    """Attest the stable output set expected by the pinned readiness validator."""
+    project_root = project_root.resolve()
+    output_dir = project_root / "output"
+    inventory_mode = output_inventory_mode_for_project(repo_root, project_root)
+    manifest = collect_current_artifact_manifest(output_dir, inventory_mode=inventory_mode)
+    return write_json(output_dir / "reports" / "artifact_manifest.json", manifest.to_dict())
 
 
 def write_schema_manifest(project_root: Path, paths: list[Path], *, generated_at: str) -> Path:

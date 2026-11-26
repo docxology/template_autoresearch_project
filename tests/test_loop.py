@@ -15,6 +15,20 @@ from src.loop import build_claims, run_autoresearch_loop
 from src.models import AutoResearchLoopResult
 
 
+def test_loop_rejects_missing_disclosure_in_canonical_sources(
+    project_root: Path, repo_root: Path, tmp_path: Path
+) -> None:
+    candidate = tmp_path / project_root.name
+    manuscript_dir = candidate / "docs" / "manuscript"
+    manuscript_dir.mkdir(parents=True)
+    live_sources = project_root / "docs" / "manuscript"
+    shutil.copy(live_sources / "config.yaml", manuscript_dir / "config.yaml")
+    (manuscript_dir / "02_methodology.md").write_text("# Methodology\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="Missing required disclosure in numbered manuscript sources"):
+        run_autoresearch_loop(candidate, repo_root)
+
+
 def _run_loop_without_coverage(project: Path, repo: Path) -> AutoResearchLoopResult:
     """Run a secondary smoke loop without tracing every training operation."""
     coverage_module = sys.modules.get("coverage")
@@ -159,7 +173,7 @@ def test_run_autoresearch_loop_writes_bounded_method_ledgers(
     assert research_program["path"] == "program.md"
     assert research_program["autonomy_level"] == "proposal_only"
     assert research_program["budget_policy"]["max_iterations"] == 4
-    assert "projects/templates/template_autoresearch_project/src/" in research_program["edit_allowlist"]
+    assert "src/" in research_program["edit_allowlist"]
     assert {idea["status"] for idea in idea_ledger["ideas"]} >= {"accepted", "rejected", "deferred"}
     accepted = [idea for idea in idea_ledger["ideas"] if idea["status"] == "accepted"]
     assert accepted and all(idea["evidence_links"] for idea in accepted)

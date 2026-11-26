@@ -1,34 +1,57 @@
 # Runbook
 
-Run the full deterministic AutoResearch exemplar through the main template
-orchestrator:
+The core run uses the checked-in fixture and fixed seeds. It evaluates a finite set of candidates, writes the evidence and review packet, then renders the manuscript. The default human-review state is deferred.
 
-```bash
-./run.sh --pipeline --project template_autoresearch_project --mode core --skip-infra
+## Set up a pinned runner
+
+Install Python 3.14+, uv, Pandoc 3.14, the matching `pandoc-crossref` v0.3.26b release, and XeLaTeX with the [template's TeX packages](https://github.com/docxology/template/blob/87704feae0a4490ef7dad9c931d268e8c30273c2/README.md#L565-L574). Set `AUTORESEARCH_CHECKOUT` to the absolute path of a clean checkout of this repository.
+
+```sh
+git clone https://github.com/docxology/template.git autoresearch-template-runner
+cd autoresearch-template-runner
+git checkout --detach 87704feae0a4490ef7dad9c931d268e8c30273c2
+uv sync --locked
+project=projects/working/template_autoresearch_project
+mkdir -p projects/working
+git -C "$AUTORESEARCH_CHECKOUT" worktree add --detach "$PWD/$project" HEAD
 ```
 
-The command executes the standard project stages:
+## Test, analyze, render, and validate
 
-1. Project tests validate config parsing, deterministic ML-task behavior, loop
-   generation, manuscript variable hydration, and thin scripts.
-2. Project analysis runs `scripts/run_autoresearch_loop.py` and
-   `scripts/z_generate_manuscript_variables.py`.
-3. Rendering consumes generated manuscript variables and resolved manuscript
-   files.
-4. Output validation includes AutoResearch readiness because
-   `autoresearch.yaml` is present.
-5. Copy outputs moves final deliverables into the repository-level `output/`
-   tree.
+From the template root, run the native tests and source-ledger audit:
+
+```sh
+uv run --no-sync --with pytest --with pytest-cov pytest "$project/tests" \
+  --cov="$project/src" --cov-fail-under=90
+uv run python "$project/scripts/check_source_ledger.py"
+```
+
+In the detached worktree, move the tracked publication snapshot aside and start with new analysis and rendered outputs:
+
+```sh
+mv "$project/output" "$(mktemp -d)/published-output"
+uv run python scripts/pipeline/stage_02_analysis.py --project working/template_autoresearch_project
+uv run python scripts/pipeline/stage_03_render.py --project working/template_autoresearch_project
+uv run python scripts/maintenance/refresh_artifact_manifests.py --project working/template_autoresearch_project
+uv run python scripts/pipeline/stage_04_validate.py --project working/template_autoresearch_project
+```
+
+Stage 02 runs the bounded loop and hydrates the manuscript. Stage 03 produces the combined PDF under `$project/output/pdf/`, HTML at `$project/output/web/index.html`, and per-section PDFs under `$project/output/slides/`. Check the abstract's hydrated metrics, numbered sections, citations, and diagnostic figures. The rendered evidence tables name local artifacts so readers can locate them in the output tree. Stage 04 records validation and source provenance in `$project/output/reports/`. See the [output inventory](outputs.md) for evidence and review artifacts.
+
+Check documentation navigation from the project checkout with Lychee:
+
+```sh
+git diff --check
+lychee --offline README.md AGENTS.md STANDALONE.md program.md 'docs/**/*.md'
+```
 
 ## Loop sequence (`src.loop.run_autoresearch_loop`)
 
 1. Compose plan via `build_autoresearch_plan()` and merge manuscript settings
    via `build_loop_config()`.
-2. Run intrinsic readiness checks (domain profile, experiment plan, pipeline
-   contracts, thin orchestrators).
-3. Write core artifacts (plan JSON, loop markdown, stage matrix CSV, figure).
-4. Write the first evidence registry snapshot from on-disk artifacts.
-5. Run the bounded local MNIST neural-network task and write resolved config,
+2. Write core artifacts (plan JSON, loop markdown, stage matrix CSV, figure).
+3. Write the first evidence registry snapshot from on-disk artifacts.
+4. Run the bounded local MNIST neural-network task and write resolved config,
    results, candidate ledger, confusion matrix, training history, error
    examples, probability records, classification diagnostics, calibration
    report, calibration-bin intervals, candidate accuracy intervals,
@@ -37,20 +60,21 @@ The command executes the standard project stages:
    diagnostics, candidate rank-stability diagnostics, report, benchmark score,
    candidate-selection audit, diagnostic-boundary report, candidate-score
    figure, rank-stability figure, and figure-quality report.
-6. Build file-backed claims and finalize loop JSON, review packet, summary, and
+5. Build file-backed claims and finalize loop JSON, review packet, summary, and
    manuscript variables.
-7. Write method-contract artifacts: research program, idea ledger, run ledger,
+6. Write method-contract artifacts: research program, idea ledger, run ledger,
    deferred review decisions, benchmark grading report, and benchmark scores.
-8. Refresh loop payloads provisionally (`readiness_valid=False`) and write the
+7. Refresh loop payloads provisionally (`readiness_valid=False`) and write the
    first local security artifacts, schema manifest, local research-object
    manifest, phase ledger, and artifact manifest.
-9. Run extrinsic readiness checks (evidence registry, artifact manifest,
+8. Run intrinsic readiness checks, including disclosure from the hydrated
+   variables, and extrinsic readiness checks (evidence registry, artifact manifest,
    required artifacts, method ledgers, review gates, benchmark outputs, and
    enabled security artifacts).
-10. Write the combined intrinsic + extrinsic readiness report.
-11. Rebuild claims after readiness reports exist and refresh loop payloads with
+9. Write the combined intrinsic + extrinsic readiness report.
+10. Rebuild claims after readiness reports exist and refresh loop payloads with
    final `readiness_valid` and output paths.
-12. Regenerate final figures and figure registry captions from the final loop
+11. Regenerate final figures and figure registry captions from the final loop
    state, including candidate scores, confusion matrix, per-class accuracy,
    learning curves, complexity/accuracy, error examples, calibration,
    classification metrics, confusion pairs, generalization gaps, robustness
@@ -59,9 +83,9 @@ The command executes the standard project stages:
    candidate rank stability, candidate lifecycle, local class balance, local
    data contact sheet, readiness matrix, closure flow, security-control matrix,
    and integrity chain.
-13. Write manuscript variables, registry-backed figure blocks, and variable
+12. Write manuscript variables, registry-backed figure blocks, and variable
    provenance sidecars.
-14. Rewrite the compact evidence-registry report, security artifacts, phase
+13. Rewrite the compact evidence-registry report, security artifacts, phase
    ledger, schema manifest, local research-object manifest, figure-quality
    report, and artifact manifest.
 
@@ -75,11 +99,11 @@ required artifact contract.
 Targeted checks:
 
 ```bash
-uv run python scripts/pipeline/stage_01_test.py --project template_autoresearch_project --project-only --quiet
-uv run python scripts/pipeline/stage_02_analysis.py --project template_autoresearch_project
-uv run python -m infrastructure.autoresearch.cli plan --project template_autoresearch_project
-uv run python -m infrastructure.autoresearch.cli benchmark --project template_autoresearch_project
-uv run python -m infrastructure.autoresearch.cli validate --project template_autoresearch_project --fail-on-issues
+uv run python scripts/pipeline/stage_01_test.py --project working/template_autoresearch_project --project-only --quiet
+uv run python scripts/pipeline/stage_02_analysis.py --project working/template_autoresearch_project
+uv run python -m infrastructure.autoresearch.cli plan --project working/template_autoresearch_project
+uv run python -m infrastructure.autoresearch.cli benchmark --project working/template_autoresearch_project
+uv run python -m infrastructure.autoresearch.cli validate --project working/template_autoresearch_project --fail-on-issues
 ```
 
 Review `output/reports/autoresearch_review_packet.md` before treating the
@@ -98,7 +122,7 @@ not download MNIST. To intentionally rebuild that fixture, run the manual
 maintenance utility:
 
 ```bash
-uv run python projects/templates/template_autoresearch_project/scripts/regenerate_mnist_fixture.py
+uv run python $project/scripts/regenerate_mnist_fixture.py
 ```
 
 Do not wire this script into project tests, analysis, rendering, validation, or

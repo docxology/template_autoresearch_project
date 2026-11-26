@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from infrastructure.core.pipeline.artifacts import compute_sha256
+from infrastructure.core.project_paths import resolve_source_manuscript_dir
 
 from src.config import AutoResearchLoopConfig
 from src.json_coerce import mapping_list
@@ -196,7 +197,7 @@ def supply_chain_inventory_payload(
         ("mnist_task", project_root / "mnist_task.yaml", True),
         ("mnist_fixture", project_root / "data" / "mnist_small.npz", True),
         ("mnist_provenance", project_root / "data" / "mnist_small_provenance.json", True),
-        ("manuscript_config", project_root / "manuscript" / "config.yaml", True),
+        ("manuscript_config", resolve_source_manuscript_dir(project_root) / "config.yaml", True),
     )
     generated_paths = [
         path

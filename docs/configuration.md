@@ -76,7 +76,7 @@ rates and train/test metrics are serialized to `ml_training_history.csv`; and
 best-epoch, final-rate, loss-reduction, and train-test gap summaries are
 serialized to `ml_training_diagnostics.json`.
 
-## `manuscript/config.yaml` (loop settings)
+## `docs/manuscript/config.yaml` (loop settings)
 
 Loaded by `src.config.load_manuscript_loop_settings`:
 
@@ -164,7 +164,7 @@ chain compromise. The project borrows the documentation and artifact-integrity
 discipline, not the full packaging, signing, deployment, or monitoring
 standards.
 
-The manuscript also maintains `manuscript/source_ledger.yaml` with schema
+The manuscript also maintains `docs/manuscript/source_ledger.yaml` with schema
 `template-autoresearch-source-ledger-v1`. Each current-trends citation declares
 `citekey`, `canonical_url`, `source_tier`, and `checked_as_of`. Tests and
 `scripts/check_source_ledger.py` validate the ledger offline; they check shape,
@@ -235,7 +235,7 @@ SLSA signed provenance.
 ## Scripts
 
 - `scripts/run_autoresearch_loop.py` calls `src.loop.run_autoresearch_loop`.
-- `scripts/check_source_ledger.py` validates `manuscript/source_ledger.yaml`
+- `scripts/check_source_ledger.py` validates `docs/manuscript/source_ledger.yaml`
   offline and prints source-tier counts.
 - `scripts/z_generate_manuscript_variables.py` calls
   `src.manuscript_variables` helpers, writes resolved manuscript files, and

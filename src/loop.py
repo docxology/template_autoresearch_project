@@ -11,6 +11,7 @@ from infrastructure.autoresearch import (
     write_autoresearch_report,
 )
 from infrastructure.core.determinism import resolve_source_date_epoch
+from infrastructure.core.project_paths import resolve_source_manuscript_dir
 from infrastructure.validation.evidence_registry import (
     build_project_evidence_registry,
     write_evidence_registry_report,
@@ -65,7 +66,12 @@ def run_autoresearch_loop(project_root: Path, repo_root: Path | None = None) -> 
     settings = load_manuscript_loop_settings(project_root)
     human_review = load_human_review(project_root / "human_review.yaml")
     config = build_loop_config(plan, settings, human_review=human_review)
-    readiness_pre = validate_autoresearch_plan(plan, project_root, phase="intrinsic")
+    disclosure = plan.config.disclosure_text.strip()
+    if "ai_disclosure" in plan.quality_checks and plan.config.disclosure_required and disclosure:
+        manuscript_dir = resolve_source_manuscript_dir(project_root)
+        sources = (path.read_text(encoding="utf-8") for path in manuscript_dir.glob("[0-9][0-9]_*.md"))
+        if not any(disclosure in source or "{{DISCLOSURE_TEXT}}" in source for source in sources):
+            raise ValueError(f"Missing required disclosure in numbered manuscript sources: {manuscript_dir}")
     stage_results = build_stage_results(config, plan_stage_count=len(plan.stages))
     # Deterministic (HEAD commit time) in TEMPLATE_DETERMINISTIC / SOURCE_DATE_EPOCH
     # mode so the emitted artifacts are byte-stable across runs; wall-clock otherwise.
@@ -132,6 +138,9 @@ def run_autoresearch_loop(project_root: Path, repo_root: Path | None = None) -> 
     )
     run_pre_extrinsic_phases(ctx, pre_readiness)
 
+    # The pinned validator discovers disclosure in the generated variables for
+    # projects whose editable manuscript is under docs/.
+    readiness_pre = validate_autoresearch_plan(plan, project_root, phase="intrinsic")
     readiness_valid, readiness_report = resolve_extrinsic_readiness(plan, project_root, ctx, readiness_pre)
     ctx.output_paths.extend(write_autoresearch_report(project_root, readiness_report))
     claims = build_claims(config, project_root)

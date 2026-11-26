@@ -7,6 +7,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from infrastructure.core.project_paths import resolve_source_manuscript_dir
+
 from src.artifact_loader import LoopArtifacts
 from .manuscript_token_registry import STRICT_VALUE_TOKENS
 from .manuscript_tables import build_table_specs, variable_provenance_table
@@ -74,7 +76,7 @@ def validate_manuscript_source_values(project_root: Path, variables: dict[str, s
     """Reject raw run-derived values in numbered manuscript sources."""
     strict_pairs = _strict_value_pairs(variables)
     issues: list[str] = []
-    for path in sorted((project_root / "manuscript").glob("[0-9][0-9]_*.md")):
+    for path in sorted((resolve_source_manuscript_dir(project_root)).glob("[0-9][0-9]_*.md")):
         source = _TOKEN_RE.sub("", path.read_text(encoding="utf-8"))
         for token, value in strict_pairs:
             if _raw_value_present(source, value):

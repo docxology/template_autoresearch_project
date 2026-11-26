@@ -147,7 +147,7 @@ def test_schema_and_research_object_manifests_are_local(project_root: Path, tmp_
     manuscript = tmp_path / "manuscript"
     manuscript.mkdir()
     (manuscript / "source_ledger.yaml").write_text(
-        (project_root / "manuscript" / "source_ledger.yaml").read_text(encoding="utf-8"),
+        (project_root / "docs" / "manuscript" / "source_ledger.yaml").read_text(encoding="utf-8"),
         encoding="utf-8",
     )
 
