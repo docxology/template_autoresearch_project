@@ -81,13 +81,12 @@ Security artifacts are local-only integrity evidence: no network calls, no
 external signing, no production SLSA compliance claim, no complete dependency
 SBOM claim, and no runtime security monitoring are part of the default exemplar.
 
-## Run Commands
+## Local verification
 
-```bash
-./run.sh --pipeline --project template_autoresearch_project --mode core --skip-infra
-uv run python scripts/pipeline/stage_01_test.py --project template_autoresearch_project --project-only
-uv run python -m infrastructure.autoresearch.cli validate --project template_autoresearch_project --fail-on-issues
-```
+Start with the [project runbook](docs/runbook.md). It distinguishes commands
+run from this checkout from the commands run in the pinned Template checkout.
+Use the shipped offline fixture for local verification and the
+[fork guide](docs/standalone.md) when adapting the project.
 
 ## Editing Rules
 
